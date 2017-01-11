@@ -24,6 +24,7 @@ spec:
         command:
         - sh
         - -c
+        - export HADOOP_HEAPSIZE="200m"
         - yarn nodemanager
         volumeMounts:
         - name: core-site

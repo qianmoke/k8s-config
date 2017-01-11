@@ -50,6 +50,7 @@ spec:
         command:
         - sh
         - -c
+        - export HADOOP_HEAPSIZE="200m"
         - hdfs datanode
         volumeMounts:
         - name: hadoop

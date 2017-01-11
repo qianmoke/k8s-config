@@ -42,6 +42,7 @@ spec:
         command:
         - sh
         - -c
+        - export HADOOP_HEAPSIZE="200m"
         - hdfs journalnode
         volumeMounts:
         - name: hadoop

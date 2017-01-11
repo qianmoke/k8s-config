@@ -28,6 +28,7 @@ spec:
         command:
         - sh
         - -c
+        - export HADOOP_HEAPSIZE="200m"
         - mapred historyserver
         volumeMounts:
         - name: hadoop
