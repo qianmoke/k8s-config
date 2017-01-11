@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpa 
+  labels:
+    tier: hpa 
+spec:
+  ports:
+  - port: 80
+    targetPort: 80 
+  selector:
+    tier: hpa
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata: 
+  name: php-apache
+  labels:
+    tier: hpa 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: php-apache
+      labels:
+        tier: hpa
+    spec:
+      containers:
+      - name: php-apache
+        image: 192.168.216.128:5000/kubernetes/hpa-example
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 200m
+      imagePullSecrets:
+      - name: registry-key

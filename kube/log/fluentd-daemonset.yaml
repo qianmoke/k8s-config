@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: fluentd
+spec:
+  template:
+    metadata:
+      labels:
+        name: fluentd
+      annotations:
+        scheduler.alpha.kubernetes.io/tolerations: |
+          [
+            {
+              "key": "dedicated",
+              "operator": "Equal",
+              "value": "master",
+              "effect": "NoSchedule"
+            }
+          ]
+    spec:
+      containers:
+        - name: fluentd
+          image: 192.168.216.128:5000/log/fluentd
+          env:
+          - name: FILES_TO_COLLECT
+            value: "/mnt/log/messages"
+          volumeMounts:
+          - name: host
+            readOnly: true
+            mountPath: /mnt/log
+          resources:
+            limits:
+              cpu: 100m
+              memory: 200Mi
+      restartPolicy: Always
+      volumes:
+      - name: host
+        hostPath:
+          path: /var/log

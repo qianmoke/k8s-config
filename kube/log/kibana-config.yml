@@ -1,0 +1,4 @@
+server:
+  host: kibana
+elasticsearch:
+  url: http://elasticsearch-logging:9200

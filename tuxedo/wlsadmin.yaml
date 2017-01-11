@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wlsadmin
+  labels:
+    app: wlsadmin
+spec:
+  ports:
+    - port: 8001
+  selector:
+    app: wlsadmin
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wlsadmin
+  labels:
+    app: wlsadmin
+spec:
+  template:
+    metadata:
+      labels:
+        app: wlsadmin
+    spec:
+      containers:
+      - image: 1221-domain
+        imagePullPolicy: IfNotPresent
+        name: wlsadmin
+        ports:
+        - containerPort: 8001
+          name: admin

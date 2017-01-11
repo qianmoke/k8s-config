@@ -1,0 +1,87 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "etcd-3",
+    "namespace": "kube-system",
+    "creationTimestamp": null,
+    "labels": {
+      "component": "etcd",
+      "tier": "control-plane"
+    }
+  },
+  "spec": {
+    "volumes": [
+      {
+        "name": "certs",
+        "hostPath": {
+          "path": "/etc/ssl/certs"
+        }
+      },
+      {
+        "name": "etcd",
+        "hostPath": {
+          "path": "/var/lib/etcd-3"
+        }
+      },
+      {
+        "name": "pki",
+        "hostPath": {
+          "path": "/etc/kubernetes"
+        }
+      }
+    ],
+    "containers": [
+      {
+        "name": "etcd",
+        "image": "gcr.io/google_containers/etcd-amd64:2.2.5",
+        "command": [
+          "etcd",
+          "--name=etcd-1",
+          "--initial-advertise-peer-urls=http://0.0.0.0:2381",
+          "--listen-peer-urls=http://0.0.0.0:2381",
+          "--listen-client-urls=http://0.0.0.0:2379",
+          "--advertise-client-urls=http://0.0.0.0:2379",
+          "--discovery=http://192.168.216.128:2379/v2/keys/discovery/6c007a14875d53d9bf0ef5a6fc0257c817f0fb82",
+	  "--initial-cluster-token='etcd-cluster'",
+          "--data-dir=/var/etcd/data"
+        ],
+        "resources": {
+          "requests": {
+            "cpu": "100m"
+          }
+        },
+        "volumeMounts": [
+          {
+            "name": "certs",
+            "mountPath": "/etc/ssl/certs"
+          },
+          {
+            "name": "etcd",
+            "mountPath": "/var/etcd"
+          },
+          {
+            "name": "pki",
+            "readOnly": true,
+            "mountPath": "/etc/kubernetes/"
+          }
+        ],
+        "livenessProbe": {
+          "httpGet": {
+            "path": "/health",
+            "port": 2379
+          },
+          "initialDelaySeconds": 15,
+          "timeoutSeconds": 15,
+          "failureThreshold": 8
+        },
+        "securityContext": {
+          "seLinuxOptions": {
+            "type": "unconfined_t"
+          }
+        }
+      }
+    ]
+  },
+  "status": {}
+}

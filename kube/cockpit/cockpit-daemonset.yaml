@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: cockpit
+  namespace: kube-system
+spec:
+  template:
+    metadata:
+      labels:
+        name: cockpit
+      annotations:
+        scheduler.alpha.kubernetes.io/tolerations: |
+          [
+            {
+              "key": "dedicated",
+              "operator": "Equal",
+              "value": "master",
+              "effect": "NoSchedule"
+            }
+          ]
+    spec:
+      hostNetwork: true
+      hostPID: true
+      containers:
+        - name: cockpit
+          image: 192.168.216.128:5000/cockpit/ws
+          command:
+          - /container/atomic-run 
+          - --local-ssh 
+          - --port
+          - "9091"
+          securityContext:
+            privileged: true
+          volumeMounts:
+          - name: host
+            mountPath: /host
+          resources:
+            requests:
+              cpu: 100m
+      restartPolicy: Always
+      volumes:
+      - name: host
+        hostPath:
+          path: /

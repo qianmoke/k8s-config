@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-dn
+  labels:
+    app: hdfs-dn
+spec:
+  ports:
+  - port: 44712
+    name: web
+  - port: 50010
+    name: stream
+  - port: 50075
+    name: http-traffic     
+  - port: 50020
+    name: rpc
+  clusterIP: None
+  selector:
+    app: dn
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: dn
+spec:
+  serviceName: hdfs-dn
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: dn
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop:2.7.3
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 44712
+          name: web
+        - containerPort: 50010
+          name: stream
+        - containerPort: 50075
+          name: http-traffic     
+        - containerPort: 50020
+          name: rpc
+        command:
+        - sh
+        - -c
+        - hdfs datanode
+        volumeMounts:
+        - name: hadoop
+          mountPath: /hadoop/etc/hadoop   
+        - name: dfs-dn
+          mountPath: /tmp/dfs                                   
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+  volumeClaimTemplates:
+  - metadata:
+      name: dfs-dn
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi
+          

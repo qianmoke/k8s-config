@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: loadbalancer-test
+  labels:
+    tier: loadbalancer-test
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        tier: loadbalancer-test
+        version: v1
+    spec:
+      nodeSelector:
+        role: loadbalancer
+      hostNetwork: true
+      containers:
+      - image: docker.io/pilchard/servicelb
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: haproxy-test
+        ports:
+        # All http services
+        - containerPort: 80 
+          hostPort: 80
+          protocol: TCP
+        # nginx https
+        - containerPort: 443 
+          hostPort: 443 
+          protocol: TCP
+        # kube dash 
+        - containerPort: 9090
+          hostPort: 9090
+          protocol: TCP
+        # mysql
+        - containerPort: 3306
+          hostPort: 3306
+          protocol: TCP
+        # haproxy stats
+        - containerPort: 1936
+          hostPort: 1936
+          protocol: TCP
+        resources: {}
+        args:
+        - --tcp-services=mysql:3306,kubernetes-cockpit:443,kubernetes-dashboard:9090
+        - --namespace=default

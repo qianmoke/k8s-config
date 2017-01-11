@@ -1,0 +1,83 @@
+{
+   "kind":"List",
+   "apiVersion":"v1",
+   "items":[
+      {
+         "kind": "Deployment",
+ 	 "apiVersion": "extensions/v1beta1",
+	 "metadata": {
+	   "name": "kube-scheduler",
+	   "namespace": "kube-system",
+	   "creationTimestamp": null,
+	   "labels": {
+	     "component": "kube-scheduler",
+	     "tier": "control-plane"
+	    }
+         },
+         "spec": {
+           "replicas": 2,
+	   "template": {
+             "metadata": {
+               "name": "kube-scheduler",
+               "namespace": "kube-system",
+               "labels": {
+                 "component": "kube-scheduler",
+                 "tier": "control-plane"
+               }
+             },
+             "spec": {
+               "containers": [
+               {
+                "name": "kube-scheduler",
+                "image": "gcr.io/google_containers/kube-scheduler-amd64:v1.4.4",
+                "command": [
+                  "kube-scheduler",
+                  "--v=0",
+                  "--leader-elect",
+                  "--master=127.0.0.1:8080"
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "100m"
+                  }  
+                },
+               "livenessProbe": {
+                 "httpGet": {
+                   "path": "/healthz",
+                   "port": 10251
+                 },
+                "initialDelaySeconds": 15,
+                "timeoutSeconds": 15,
+                "failureThreshold": 8
+                }
+              }
+             ]
+            } 
+           }
+         },
+         "status": {}
+     },
+     {
+         "kind":"Service",
+         "apiVersion":"v1",
+         "metadata":{
+            "name":"kubernetes-scheduler",
+            "labels":{
+               "name":"kubernetes-scheduler"
+            }
+         },
+         "spec":{
+             "type": "ClusterIP",
+             "ports": [{
+                 "protocol": "TCP",
+                 "port": 10251,
+                 "targetPort": 10251
+             }],
+            "selector":{
+               "name":"kubernetes-scheduler"
+            }
+         }
+      }
+   ]
+}
+

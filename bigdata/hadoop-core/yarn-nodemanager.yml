@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nm
+spec:
+  serviceName: zk-headless
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nm
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop:2.7.3
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 8042
+          name: web
+        command:
+        - sh
+        - -c
+        - yarn nodemanager
+        volumeMounts:
+        - name: core-site
+          mountPath: /hadoop/etc/hadoop                            
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop

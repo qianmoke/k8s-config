@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: rm
+spec:
+  serviceName: zk-headless
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rm
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop:2.7.3
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 8032
+          name: rpc-1
+        - containerPort: 8031
+          name: rpc-2
+        - containerPort: 8030
+          name: rpc-3   
+        - containerPort: 8088
+          name: web                 
+        command:
+        - sh
+        - -c
+        - hdfs namenode
+        volumeMounts:
+        - name: hadoop
+          mountPath: /hadoop/etc/hadoop                            
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop

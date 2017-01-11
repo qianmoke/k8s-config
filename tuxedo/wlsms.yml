@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wlsms
+  labels:
+    app: wlsms
+spec:
+  ports:
+    - port: 7001
+  selector:
+    app: wlsms
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wlsms
+  labels:
+    app: wlsms
+spec:
+  template:
+    metadata:
+      labels:
+        app: wlsms
+    spec:
+      containers:
+      - name: wlsms
+        image: 1221-domain
+        imagePullPolicy: IfNotPresent
+        command: ["createServer.sh"]
+        ports:
+        - containerPort: 7001
+          name: admin
