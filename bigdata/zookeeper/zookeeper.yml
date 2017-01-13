@@ -147,16 +147,13 @@ spec:
           initialDelaySeconds: 15
           timeoutSeconds: 5
         volumeMounts:
-        - name: datadir
+        - name: zk
           mountPath: /var/lib/zookeeper
-      securityContext:
-        runAsUser: 1000
-        fsGroup: 1000
   volumeClaimTemplates:
   - metadata:
-      name: datadir
+      name: zk
       annotations:
-        volume.alpha.kubernetes.io/storage-class: anything
+        volume.alpha.kubernetes.io/storage-class: "slow"
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

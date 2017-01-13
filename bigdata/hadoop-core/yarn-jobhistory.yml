@@ -24,11 +24,13 @@ spec:
         - containerPort: 10020
           name: rpc-1
         - containerPort: 10033
-          name: rpc-2        
+          name: rpc-2
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"                  
         command:
         - sh
         - -c
-        - export HADOOP_HEAPSIZE="200m"
         - mapred historyserver
         volumeMounts:
         - name: hadoop

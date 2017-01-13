@@ -39,6 +39,9 @@ spec:
           name: web
         - containerPort: 8020
           name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"        
         command:
         - sh
         - -c
@@ -51,7 +54,6 @@ spec:
                 hdfs namenode -bootstrapStandby
              fi
           fi
-          export HADOOP_HEAPSIZE="200m"
           mkdir -p /hadoop/logs            
           echo "#!/usr/bin/env bash" > /usr/bin/nnok.sh
           echo "ps -ef|grep java|grep namenode 2>&1 >/dev/null && exit 0 || exit 1" >> /usr/bin/nnok.sh

@@ -11,4 +11,4 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /mnt/sda1
+      path: /data

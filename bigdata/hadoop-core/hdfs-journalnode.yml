@@ -39,10 +39,12 @@ spec:
           name: web
         - containerPort: 8485
           name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"
         command:
         - sh
         - -c
-        - export HADOOP_HEAPSIZE="200m"
         - hdfs journalnode
         volumeMounts:
         - name: hadoop

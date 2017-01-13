@@ -26,11 +26,13 @@ spec:
         - containerPort: 8030
           name: rpc-3   
         - containerPort: 8088
-          name: web                 
+          name: web     
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"                      
         command:
         - sh
         - -c
-        - export HADOOP_HEAPSIZE="200m"
         - hdfs namenode
         volumeMounts:
         - name: hadoop
