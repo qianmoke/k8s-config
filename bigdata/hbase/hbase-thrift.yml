@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hbase-thrift
+  labels:
+    app: hbase-thrift
+spec:
+  ports:
+  - port: 9090
+    name: rpc
+  - port: 9095
+    name: web
+  clusterIP: None
+  selector:
+    app: thrift
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: thrift
+spec:
+  serviceName: hbase-re
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: thrift
+    spec:
+      containers:
+      - name: hbase
+        imagePullPolicy: IfNotPresent
+        image: harisekhon/hbase
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 9090
+          name: rpc
+        - containerPort: 9095
+          name: web
+        env:
+        - name : HBASE_HEAPSIZE
+          value: "200"          
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /hbase/logs
+          hbase thrift start | tee -a /hbase/logs/hbase-thrift.log
+        volumeMounts:
+        - name: hbase
+          mountPath: /hbase/conf                                     
+      volumes:
+      - name: hbase
+        configMap:
+          name: hbase
