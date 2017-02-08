@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: loadbalancer-hadoop
+  labels:
+    tier: loadbalancer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        tier: loadbalancer
+        version: v1
+    spec:
+      nodeSelector:
+        role: loadbalancer
+      #hostNetwork: true
+      containers:
+      - image: docker.io/pilchard/servicelb
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: haproxy-test
+        ports:
+        # All http services
+        #- containerPort: 80 
+        #  hostPort: 80
+        #  protocol: TCP
+        # nginx https
+        #- containerPort: 443 
+        #  hostPort: 443 
+        #  protocol: TCP
+        # jn web
+        - containerPort: 8480
+          hostPort: 8480
+          protocol: TCP
+        # nn web
+        - containerPort: 50070
+          hostPort: 50070
+          protocol: TCP
+        # dn web
+        - containerPort: 44712
+          hostPort: 44712
+          protocol: TCP
+        # rm web
+        - containerPort: 8088
+          hostPort: 8080
+          protocol: TCP  
+        # nm web
+        - containerPort: 8042
+          hostPort: 8042
+          protocol: TCP  
+        # job web
+        - containerPort: 19888
+          hostPort: 19888
+          protocol: TCP            
+        # haproxy stats
+        - containerPort: 1936
+          hostPort: 1936
+          protocol: TCP
+        resources: {}
+        args:
+        - --tcp-services=hdfs-jn:8480,hdfs-nn:50070,hdfs-dn:44712,yarn-rm:8088,yarn-nm:8042,mapred-job:19888

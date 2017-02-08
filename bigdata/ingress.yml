@@ -1,0 +1,13 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: yarn-rm
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: yarn-rm
+          servicePort: 8088

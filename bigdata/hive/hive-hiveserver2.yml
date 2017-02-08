@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hiveserver2
+  labels:
+    app: hiveserver2
+spec:
+  ports:
+  - port: 10000
+    targetPort: 10000
+    name: hiveserver2
+  selector:
+    app: hiveserver2
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hiveserver2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hiveserver2
+    spec:
+      containers:
+      - name: hiveserver2
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hive
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 10000
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"          
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /hive/logs
+          nohup hive --service metastore 2>&1 > /hive/logs/hive-metastore.log &
+          tail -f /hive/logs/hive-metastore.log
+        volumeMounts:
+        - name: hive
+          mountPath: /hive/conf   
+        volumeMounts:
+        - name: hadoop
+          mountPath: /hadoop/etc/hadoop                                   
+      volumes:
+      - name: hive
+        configMap:
+          name: hive
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+          
