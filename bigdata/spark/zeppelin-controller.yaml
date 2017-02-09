@@ -13,9 +13,9 @@ spec:
     spec:
       containers:
         - name: zeppelin
-          image: 192.168.216.128:5000/bigdata/zeppelin:v0.5.6_v1
+          image: gcr.io/google_containers/zeppelin:v0.5.6_v1 
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              cpu: 100m
+#          resources:
+#            requests:
+#              cpu: 100m
