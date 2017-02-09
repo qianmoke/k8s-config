@@ -30,7 +30,7 @@ spec:
       containers:
       - name: hadoop
         imagePullPolicy: IfNotPresent
-        image: pilchard/hadoop:2.7.3
+        image: pilchard/hadoop
         resources:
           requests:
             cpu: "100m"
@@ -81,7 +81,7 @@ spec:
   - metadata:
       name: dfs-nn
       annotations:
-        volume.alpha.kubernetes.io/storage-class: anything
+        volume.beta.kubernetes.io/storage-class: slow 
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

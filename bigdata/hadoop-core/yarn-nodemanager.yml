@@ -28,10 +28,10 @@ spec:
       containers:
       - name: hadoop
         imagePullPolicy: IfNotPresent
-        image: pilchard/hadoop:2.7.3
-        resources:
-          requests:
-            cpu: "100m"
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
         ports:
         - containerPort: 8042
           name: web

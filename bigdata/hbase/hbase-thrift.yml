@@ -30,10 +30,10 @@ spec:
       containers:
       - name: hbase
         imagePullPolicy: IfNotPresent
-        image: harisekhon/hbase
-        resources:
-          requests:
-            cpu: "100m"
+        image: pilchard/hbase
+#        resources:
+#          requests:
+#            cpu: "100m"
         ports:
         - containerPort: 9090
           name: rpc
