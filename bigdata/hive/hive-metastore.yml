@@ -8,16 +8,17 @@ metadata:
 spec:
   ports:
   - port: 9803
-    targetPort: 9083
     name: metastore
+  clusterIP: None
   selector:
     app: metastore
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: metastore
 spec:
+  serviceName: metastore
   replicas: 1
   template:
     metadata:
@@ -28,9 +29,9 @@ spec:
       - name: metastore
         imagePullPolicy: IfNotPresent
         image: pilchard/hive
-        resources:
-          requests:
-            cpu: "100m"
+#        resources:
+#          requests:
+#            cpu: "100m"
         ports:
         - containerPort: 9803
           name: rpc

@@ -4,7 +4,7 @@ metadata:
   name: mysql
 spec:
   serviceName: mysql
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -156,7 +156,7 @@ spec:
   - metadata:
       name: data
       annotations:
-        volume.alpha.kubernetes.io/storage-class: default
+        volume.beta.kubernetes.io/storage-class: slow
     spec:
       accessModes: ["ReadWriteOnce"]
       resources:
