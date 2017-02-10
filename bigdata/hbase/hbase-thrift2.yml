@@ -13,7 +13,7 @@ spec:
     name: web
   clusterIP: None
   selector:
-    app: thrift2
+    app: hbase-thrift2
 ---
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -25,15 +25,15 @@ spec:
   template:
     metadata:
       labels:
-        app: re
+        app: hbase-thrift2 
     spec:
       containers:
       - name: hbase
         imagePullPolicy: IfNotPresent
         image: harisekhon/hbase
-        resources:
-          requests:
-            cpu: "100m"
+#        resources:
+#          requests:
+#            cpu: "100m"
         ports:
         - containerPort: 9090
           name: rpc
@@ -47,7 +47,8 @@ spec:
         - -c
         - |
           mkdir -p /hbase/logs
-          hbase thrift2 start | tee -a /hbase/logs/hbase-thrift2.log
+          nohup hbase thrift2 start 2>&1 >/hbase/logs/hbase-thrift2.log &
+          tail -f /hbase/logs/hbase-thrift2.log
         volumeMounts:
         - name: hbase
           mountPath: /hbase/conf                                     

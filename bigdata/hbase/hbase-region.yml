@@ -21,7 +21,7 @@ metadata:
   name: rs
 spec:
   serviceName: hbase-rs
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -47,7 +47,8 @@ spec:
         - -c
         - |
           mkdir -p /hbase/logs
-          hbase regionserver start | tee -a /hbase/logs/hbase-regionserver.log
+          nohup hbase regionserver start 2>&1 > /hbase/logs/hbase-regionserver.log &
+          tail -f /hbase/logs/hbase-regionserver.log
         volumeMounts:
         - name: hbase
           mountPath: /hbase/conf                                     

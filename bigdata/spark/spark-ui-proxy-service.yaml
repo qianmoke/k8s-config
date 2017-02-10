@@ -3,6 +3,7 @@ apiVersion: v1
 metadata:
   name: spark-ui-proxy
 spec:
+  type: NodePort
   ports:
     - port: 80
       targetPort: 80

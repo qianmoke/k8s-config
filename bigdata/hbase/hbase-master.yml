@@ -21,7 +21,7 @@ metadata:
   name: ma
 spec:
   serviceName: hbase-ma
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -41,13 +41,13 @@ spec:
           name: web
         env:
         - name : HBASE_HEAPSIZE
-          value: "200"          
+          value: "500"          
         command:
         - sh
         - -c
         - |
           mkdir -p /hbase/logs
-          hbase master start | tee -a /hbase/logs/hbase-master.log
+          hbase master start 2>&1 | tee -a /hbase/logs/hbase-master.log
         volumeMounts:
         - name: hbase
           mountPath: /hbase/conf                                     
