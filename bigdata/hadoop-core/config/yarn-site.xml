@@ -17,10 +17,38 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-  <property>
-    <name>yarn.resourcemanager.hostname</name>
-    <value>rm-0.yarn-rm</value>
-  </property>
+<property>
+  <name>yarn.resourcemanager.ha.enabled</name>
+  <value>true</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.cluster-id</name>
+  <value>yarncluster</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.ha.rm-ids</name>
+  <value>rm-0,rm-1</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.hostname.rm-0</name>
+  <value>rm-0.yarn-rm</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.hostname.rm-1</name>
+  <value>rm-1.yarn-rm</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.webapp.address.rm-0</name>
+  <value>rm-0.yarn-rm:8088</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.webapp.address.rm-1</name>
+  <value>rm-1.yarn-rm:8088</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.zk-address</name>
+  <value>zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181</value>
+</property>
   <property>
     <name>yarn.nodemanager.aux-services</name>
     <value>mapreduce_shuffle</value>
@@ -46,4 +74,47 @@
     <name>yarn.app.mapreduce.am.staging-dir</name>
     <value>/user</value>
   </property>
+ <property>
+   <description>Enable RM to recover state after starting. If true, then
+   yarn.resourcemanager.store.class must be specified</description>
+   <name>yarn.resourcemanager.recovery.enabled</name>
+   <value>true</value>
+ </property>
+
+ <property>
+   <description>The class to use as the persistent store.</description>
+   <name>yarn.resourcemanager.store.class</name>
+   <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+ </property>
+
+ <property>
+   <description>Comma separated list of Host:Port pairs. Each corresponds to a ZooKeeper server
+   (e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002") to be used by the RM for storing RM state.
+   This must be supplied when using org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore
+   as the value for yarn.resourcemanager.store.class</description>
+   <name>yarn.resourcemanager.zk-address</name>
+   <value>zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181</value>
+ </property>
+<property>
+  <description>Indicate to clients whether Timeline service is enabled or not.
+  If enabled, the TimelineClient library used by end-users will post entities
+  and events to the Timeline server.</description>
+  <name>yarn.timeline-service.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+  <description>The setting that controls whether yarn system metrics is
+  published on the timeline server or not by RM.</description>
+  <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+  <description>Indicate to clients whether to query generic application
+  data from timeline history-service or not. If not enabled then application
+  data is queried only from Resource Manager.</description>
+  <name>yarn.timeline-service.generic-application-history.enabled</name>
+  <value>true</value>
+</property>
 </configuration>

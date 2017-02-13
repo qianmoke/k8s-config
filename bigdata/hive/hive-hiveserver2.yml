@@ -42,8 +42,8 @@ spec:
         - -c
         - |
           mkdir -p /hive/logs
-          nohup hive --service metastore 2>&1 > /hive/logs/hive-metastore.log &
-          tail -f /hive/logs/hive-metastore.log
+          nohup hive --service hiveserver2 2>&1 > /hive/logs/hive-hiveserver2.log &
+          tail -f /hive/logs/hive-hiveserver2.log
         volumeMounts:
         - name: hive
           mountPath: /hive/conf   
