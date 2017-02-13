@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-worker
+  labels:
+    app: spark-worker
+spec:
+  ports:
+  - port: 18081
+    targetPort: 18081
+    name: web
+  - port: 7078
+    targetPort: 7078
+    name: rpc-2
+  selector:
+    app: spark-worker
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spark-worker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spark-spark
+    spec:
+      containers:
+      - name: spark
+        imagePullPolicy: IfNotPresent
+        image: pilchard/spark
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 18081
+          name: web
+        - containerPort: 7078
+          name: rpc-2
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/spark-worker start
+          tail -f /var/log/spark/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: spark
+          mountPath: /etc/spark/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: spark
+        configMap:
+          name: spark
+      - name: hive
+        configMap:
+          name: hive
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: spark
+        configMap:
+          name: spark
+      - name: hive
+        configMap:
+          name: hive

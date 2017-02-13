@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yarn-tl
+  labels:
+    app: yarn-tl
+spec:
+  ports:
+  - port: 8088
+    name: web
+  - port: 8030
+    name: rpc-1
+  - port: 8031
+    name: rpc-2
+  - port: 8032
+    name: rpc-3          
+  clusterIP: None
+  selector:
+    app: tl
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: tl
+spec:
+  serviceName: yarn-tl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tl
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8032
+          name: rpc-1
+        - containerPort: 8031
+          name: rpc-2
+        - containerPort: 8030
+          name: rpc-3   
+        - containerPort: 8088
+          name: web     
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"                      
+        command:
+        - sh
+        - -c
+        - yarn timelineserver
+        volumeMounts:
+        - name: hadoop
+          mountPath: /hadoop/etc/hadoop                            
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop

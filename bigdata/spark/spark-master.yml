@@ -1,0 +1,79 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master
+  labels:
+    app: spark-master
+spec:
+  ports:
+  - port: 18080
+    targetPort: 18080
+    name: web
+  - port: 6060
+    targetPort: 6060
+    name: rpc-1
+  - port: 7077
+    targetPort: 7077
+    name: rpc-2
+  selector:
+    app: spark-master
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spark-master
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spark-master
+    spec:
+      containers:
+      - name: spark
+        imagePullPolicy: IfNotPresent
+        image: pilchard/spark
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 18080
+          name: web
+        - containerPort: 6060
+          name: rpc-1
+        - containerPort: 7077
+          name: rpc-2
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/spark-master start
+          tail -f /var/log/spark/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: spark
+          mountPath: /etc/spark/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: spark
+        configMap:
+          name: spark
+      - name: hive
+        configMap:
+          name: hive
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: spark
+        configMap:
+          name: spark
+      - name: hive
+        configMap:
+          name: hive
