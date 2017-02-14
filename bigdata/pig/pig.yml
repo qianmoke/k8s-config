@@ -1,0 +1,44 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pig
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pig
+    spec:
+      containers:
+      - name: pig
+        imagePullPolicy: IfNotPresent
+        image: pilchard/pig
+#        resources:
+#          requests:
+#            cpu: "100m"
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"          
+        command:
+        - sh
+        - -c
+        - |
+          while true
+          do
+          echo "ok"
+          sleep 10000
+          done
+        volumeMounts:
+        - name: hive
+          mountPath: /etc/hive/conf                                     
+        - name: hadoop
+          mountPath: /etc/hadoop/conf          
+      volumes:
+      - name: hive
+        configMap:
+          name: hive
+      - name: hadoop
+        configMap:
+          name: hadoop
+          
