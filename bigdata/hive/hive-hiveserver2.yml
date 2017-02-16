@@ -46,10 +46,10 @@ spec:
           tail -f /hive/logs/hive-hiveserver2.log
         volumeMounts:
         - name: hive
-          mountPath: /hive/conf   
+          mountPath: /etc/hive/conf   
         volumeMounts:
         - name: hadoop
-          mountPath: /hadoop/etc/hadoop                                   
+          mountPath: /etc/hadoop/conf                                   
       volumes:
       - name: hive
         configMap:

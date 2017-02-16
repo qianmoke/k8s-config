@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: hadoop
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         image: pilchard/hadoop
 #        resources:
 #          requests:
@@ -56,7 +56,7 @@ spec:
         - hdfs datanode
         volumeMounts:
         - name: hadoop
-          mountPath: /hadoop/etc/hadoop   
+          mountPath: /etc/hadoop/conf
         - name: dfs-dn
           mountPath: /tmp/dfs                                   
       volumes:

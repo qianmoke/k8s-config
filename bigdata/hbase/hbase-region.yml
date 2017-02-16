@@ -51,8 +51,14 @@ spec:
           tail -f /hbase/logs/hbase-regionserver.log
         volumeMounts:
         - name: hbase
-          mountPath: /hbase/conf                                     
+          mountPath: /etc/hbase/conf          
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
       volumes:
       - name: hbase
         configMap:
           name: hbase
+      - name: hadoop
+        configMap:
+          name: hadoop
+

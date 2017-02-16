@@ -50,9 +50,13 @@ spec:
           hbase master start 2>&1 | tee -a /hbase/logs/hbase-master.log
         volumeMounts:
         - name: hbase
-          mountPath: /hbase/conf                                     
+          mountPath: /etc/hbase/conf          
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                           
       volumes:
       - name: hbase
         configMap:
           name: hbase
-          
+      - name: hadoop
+        configMap:
+          name: hadoop 
