@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yarn-nm
+  labels:
+    app: yarn-nm
+spec:
+  type: NodePort
+  ports:
+  - port: 8088
+    name: web
+  clusterIP: None
+  selector:
+    app: nm
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nm
+spec:
+  serviceName: yarn-nm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nm
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8088
+          name: web
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "500"          
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/hadoop-yarn-nodemanager start 
+          tail -f /var/log/hadoop-yarn/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop

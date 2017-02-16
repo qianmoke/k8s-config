@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yarn-ps
+  labels:
+    app: yarn-ps
+spec:
+  ports:
+  - port: 8089
+    name: web
+  clusterIP: None
+  selector:
+    app: ps
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: ps
+spec:
+  serviceName: yarn-ps
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ps
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8089
+          name: web     
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"                      
+        command:
+        - sh
+        - -c
+        - yarn proxyserver
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
