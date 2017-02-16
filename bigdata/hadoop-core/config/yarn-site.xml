@@ -95,26 +95,14 @@
    <name>yarn.resourcemanager.zk-address</name>
    <value>zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181</value>
  </property>
-<property>
-  <description>Indicate to clients whether Timeline service is enabled or not.
-  If enabled, the TimelineClient library used by end-users will post entities
-  and events to the Timeline server.</description>
-  <name>yarn.timeline-service.enabled</name>
-  <value>true</value>
-</property>
 
 <property>
-  <description>The setting that controls whether yarn system metrics is
-  published on the timeline server or not by RM.</description>
-  <name>yarn.resourcemanager.system-metrics-publisher.enabled</name>
-  <value>true</value>
+  <name>yarn.web-proxy.address</name>
+  <value>ps-0.yarn-ps:8089</value>
+</property>
+<property>
+  <name>mapreduce.jobhistory.address</name>
+  <value>job-0.mapred-job:10020</value>
 </property>
 
-<property>
-  <description>Indicate to clients whether to query generic application
-  data from timeline history-service or not. If not enabled then application
-  data is queried only from Resource Manager.</description>
-  <name>yarn.timeline-service.generic-application-history.enabled</name>
-  <value>true</value>
-</property>
 </configuration>
