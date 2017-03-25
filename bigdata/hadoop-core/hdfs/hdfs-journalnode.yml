@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdfs-jn
+  labels:
+    app: hdfs-jn
+spec:
+  ports:
+  - port: 8480
+    name: web
+  - port: 8485
+    name: rpc
+  clusterIP: None
+  selector:
+    app: jn
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: jn
+spec:
+  serviceName: hdfs-jn
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: jn
+    spec:
+      containers:
+      - name: hadoop
+        imagePullPolicy: Always
+        image: pilchard/hadoop
+        resources:
+          requests:
+            cpu: "500m"
+        ports:
+        - containerPort: 8480
+          name: web
+        - containerPort: 8485
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"
+        command:
+        - sh
+        - -c
+        - hdfs journalnode
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf  
+        - name: dfs-jn
+          mountPath: /data/1/dfs/jn/                          
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+  volumeClaimTemplates:
+  - metadata:
+      name: dfs-jn
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi
