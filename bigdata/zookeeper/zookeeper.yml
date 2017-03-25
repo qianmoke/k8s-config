@@ -21,7 +21,7 @@ metadata:
   name: zk-config
 data:
   ensemble: "zk-0;zk-1;zk-2"
-  jvm.heap: "200M"
+  jvm.heap: "500M"
   tick: "2000"
   init: "10"
   sync: "5"
