@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: kube-system
+  labels:
+    component: elasticsearch
+    role: logstash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: logstash
+    spec:
+      containers:
+      - name: logstash
+        image: logstash 
+        imagePullPolicy: Always
+        command:
+        - logstash 
+        - -f 
+        - /etc/logstash/conf.d/kafka.conf
+        ports:
+        - containerPort: 9600
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: conf
+          mountPath: /etc/logstash/conf.d/
+      volumes:
+      - name: conf
+        configMap:
+          name: logstash
+
