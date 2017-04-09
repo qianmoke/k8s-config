@@ -80,7 +80,7 @@
     </property>
     <property>
         <name>oozie.service.JPAService.jdbc.url</name>
-        <value>jdbc:mysql://mydb.cbjwt1yscekn.ap-southeast-1.rds.amazonaws.com:3306/oozie</value>
+        <value>jdbc:mysql://yidb.chy68uoovmq4.us-east-2.rds.amazonaws.com:3306/oozie</value>
     </property>
     <property>
         <name>oozie.service.JPAService.jdbc.username</name>
@@ -90,4 +90,21 @@
         <name>oozie.service.JPAService.jdbc.password</name>
         <value>D@zzilovey9</value>
     </property>
+    <property>
+    <name>oozie.services.ext</name>
+    <value>
+        org.apache.oozie.service.ZKLocksService,
+        org.apache.oozie.service.ZKXLogStreamingService,
+        org.apache.oozie.service.ZKJobsConcurrencyService,
+        org.apache.oozie.service.ZKUUIDService
+    </value>
+</property>
+ <property>
+   <name>oozie.zookeeper.connection.string</name>
+   <value>zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181</value>
+</property>
+<property>
+    <name>oozie.base.url</name>
+    <value>http://oozie:11000/oozie</value>
+</property>
 </configuration>

@@ -79,7 +79,7 @@
   <property>
     <description>Where to aggregate logs</description>
     <name>yarn.nodemanager.remote-app-log-dir</name>
-    <value>hdfs://hdfscluster/var/log/hadoop-yarn/apps</value>
+    <value>hdfs://hdfscluster/hadoop-yarn</value>
   </property>
   <property>
     <name>yarn.app.mapreduce.am.staging-dir</name>

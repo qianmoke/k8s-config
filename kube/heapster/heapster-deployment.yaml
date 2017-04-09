@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: heapster
-        image: gcr.io/google_containers/heapster:v1.3.0
+        image: gcr.io/google_containers/heapster-amd64:v1.3.0-beta.1
         imagePullPolicy: Always
         command:
         - /heapster
         - --source=kubernetes:https://kubernetes.default
-        - --sink=kafka:?brokers=kf-0.kafka:9092&brokers=kf-1.kafka:9092&brokers=kf-2.kafka:9092
+#        - --sink=kafka:?brokers=kf-0.kafka:9092&brokers=kf-1.kafka:9092&brokers=kf-2.kafka:9092
 #        - --sink=elasticsearch:http://elasticsearch:9200?sniff=false
-#        - --sink=influxdb:http://monitoring-influxdb:8086
+        - --sink=influxdb:http://monitoring-influxdb:8086
 #        - --vmodule=*=4

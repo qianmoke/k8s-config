@@ -41,9 +41,8 @@ spec:
         - sh
         - -c
         - |
-          mkdir -p /hive/logs
-          nohup hive --service hiveserver2 2>&1 > /hive/logs/hive-hiveserver2.log &
-          tail -f /hive/logs/hive-hiveserver2.log
+          /etc/init.d/hive-server2 start
+          tail -f /var/log/hive/*
         volumeMounts:
         - name: hive
           mountPath: /etc/hive/conf   

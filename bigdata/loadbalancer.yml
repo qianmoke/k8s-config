@@ -14,7 +14,7 @@ spec:
     spec:
       nodeSelector:
         role: loadbalancer
-      #hostNetwork: true
+      hostNetwork: true
       containers:
       - image: docker.io/pilchard/servicelb
         imagePullPolicy: IfNotPresent
@@ -47,10 +47,6 @@ spec:
         - containerPort: 44712
           hostPort: 44712
           protocol: TCP
-        # rm web
-        - containerPort: 8088
-          hostPort: 8080
-          protocol: TCP  
         # nm web
         - containerPort: 8042
           hostPort: 8042

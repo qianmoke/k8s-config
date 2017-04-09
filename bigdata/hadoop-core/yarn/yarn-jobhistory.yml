@@ -50,7 +50,9 @@ spec:
         command:
         - sh
         - -c
-        - mapred historyserver
+        - |
+          /etc/init.d/hadoop-mapreduce-historyserver start
+          tail -f /var/log/hadoop-mapreduce/*
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf                         

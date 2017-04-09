@@ -42,14 +42,13 @@ spec:
         - sh
         - -c
         - |
-          mkdir -p /hive/logs
-          nohup hive --service metastore 2>&1 > /hive/logs/hive-metastore.log &
-          tail -f /hive/logs/hive-metastore.log
+          /etc/init.d/hive-metastore start
+          tail -f /var/log/hive/*
         volumeMounts:
         - name: hive
-          mountPath: /hive/conf                                     
+          mountPath: /etc/hive/conf                                     
         - name: hadoop
-          mountPath: /hadoop/etc/hadoop                                   
+          mountPath: /etc/hadoop/conf 
       volumes:
       - name: hive
         configMap:
