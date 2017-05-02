@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>
+        <name>sentry.service.security.mode</name>
+        <value>none</value>
+    </property>
+    <property>
+        <name>sentry.service.admin.group</name>
+        <value>admin1</value>
+    </property>
+    <property>
+        <name>sentry.service.allow.connect</name>
+        <value>impala,hive,solr</value>
+    </property>
+    <property>
+        <name>sentry.store.jdbc.url</name>
+        <value>jdbc:mysql://yidb.chy68uoovmq4.us-east-2.rds.amazonaws.com:3306/sentry</value>
+    </property>
+    <property>
+        <name>sentry.store.jdbc.driver</name>
+        <value>com.mysql.jdbc.Driver</value>
+    </property>
+    <property>
+    <name>sentry.service.server.rpc-address</name>
+    <value>sentry-0.sentry</value>
+</property>
+  <property>
+    <name>sentry.service.server.rpc-port</name>
+    <value>8038</value>
+</property>
+<property>
+    <name>sentry.service.admin.group</name>
+    <value>hive,impala,hue</value>
+</property>
+<property>
+    <name>sentry.service.allow.connect</name>
+    <value>hive,impala,hue,hdfs</value>
+</property>
+<property>
+    <name>sentry.store.group.mapping</name>
+    <value>org.apache.sentry.provider.common.HadoopGroupMappingService</value>
+</property>
+<property>
+    <name>sentry.store.jdbc.user</name>
+    <value>sentry</value>
+</property>
+<property>
+    <name>sentry.store.jdbc.password</name>
+    <value>D@zzilovey9</value>
+</property>
+<property>
+    <name>sentry.service.processor.factories</name>
+    <value>org.apache.sentry.provider.db.service.thrift.SentryPolicyStoreProcessorFactory, 
+             org.apache.sentry.hdfs.SentryHDFSServiceProcessorFactory</value>
+</property>
+<property>
+    <name>sentry.policy.store.plugins</name>
+    <value>org.apache.sentry.hdfs.SentryPlugin</value>
+</property>
+<property>
+    <name>sentry.hdfs.integration.path.prefixes</name>
+    <value>/user/hive/warehouse</value>
+</property>
+</configuration>
+

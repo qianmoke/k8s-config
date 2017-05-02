@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: krb5
+  labels:
+    app: krb5
+spec:
+  ports:
+  - port: 464
+    name: kadmin-1
+  - port: 749
+    name: kadmin-2
+  - port: 88
+    name: kdc
+  clusterIP: None
+  selector:
+    app: krb5
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: krb5
+spec:
+  serviceName: krb5
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: krb5
+    spec:
+      containers:
+      - name: kdc
+        imagePullPolicy: Always
+        image: pilchard/krb5
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 88
+          name: kdc
+        command:
+        - sh
+        - -c
+        - |
+          krb5kdc
+          tail -f /var/log/krb5kdc.log
+        volumeMounts:
+        - name: kerberos
+          mountPath: /etc/kerberos/conf
+      - name: kadmin
+        imagePullPolicy: Always
+        image: pilchard/krb5
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 464
+          name: kadmin-1
+        - containerPort: 749
+          name: kadmin-2
+        command:
+        - sh
+        - -c
+        - |
+          kadmind                      
+          tail -f /var/log/kadmind.log
+        volumeMounts:
+        - name: kerberos
+          mountPath: /etc/kerberos/conf
+      volumes:
+      - name: kerberos
+        configMap:
+          name: kerberos

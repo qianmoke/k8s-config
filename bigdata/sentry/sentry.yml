@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentry
+  labels:
+    app: sentry
+spec:
+  ports:
+  - port: 8038
+    targetPort: 8038
+    name: sentry
+  clusterIP: None
+  selector:
+    app: sentry
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: sentry
+spec:
+  serviceName: sentry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentry
+    spec:
+      containers:
+      - name: sentry
+        imagePullPolicy: Always
+        image: pilchard/solr
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8038
+          name: rpc
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/sentry-store start
+          tail -f /var/log/sentry/*
+        volumeMounts:
+        - name: sentry
+          mountPath: /etc/sentry/conf 
+      volumes:
+      - name: sentry
+        configMap:
+          name: sentry
+

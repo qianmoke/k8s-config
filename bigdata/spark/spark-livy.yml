@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-livy
+  labels:
+    app: spark-livy
+spec:
+  ports:
+  - port: 8998
+    targetPort: 8998
+    name: web
+  selector:
+    app: spark-livy
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spark-livy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spark-livy
+    spec:
+      containers:
+      - name: livy
+        imagePullPolicy: IfNotPresent
+        image: pilchard/livy
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8998
+          name: web
+        command:
+        - sh
+        - -c
+        - |
+          /usr/lib/livy/bin/livy-server start
+          tail -f /usr/lib/livy/logs/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: spark
+          mountPath: /etc/spark/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: spark
+        configMap:
+          name: spark
+      - name: hive
+        configMap:
+          name: hive

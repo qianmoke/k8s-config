@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  labels:
+    app: catalog
+spec:
+  ports:
+  - port: 25020
+    targetPort: 25020
+    name: web
+  - port: 26000
+    targetPort: 26000
+    name: rpc-impalad
+  - port: 23020 
+    targetPort: 23020 
+    name: rpc-statestore
+  clusterIP: None
+  selector:
+    app: catalog
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet 
+metadata:
+  name: catalog
+spec:
+  serviceName: catalog
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+      - name: catalog
+        imagePullPolicy: IfNotPresent
+        image: pilchard/impala
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 25020
+          name: rpc
+        env:
+        - name : IMPALA_CATALOG_SERVICE_HOST
+          value: "catalog"          
+        - name : IMPALA_STATE_STORE_HOST
+          value: "statestore" 
+        command:
+        - sh
+        - -c
+        - |
+          sed -i "s/IMPALA_CATALOG_SERVICE_HOST=127.0.0.1/IMPALA_CATALOG_SERVICE_HOST=$IMPALA_CATALOG_SERVICE_HOST/g" /etc/default/impala
+          sed -i "s/IMPALA_STATE_STORE_HOST=127.0.0.1/IMPALA_STATE_STORE_HOST=$IMPALA_STATE_STORE_HOST/g" /etc/default/impala
+          echo 'IMPALA_CATALOG_ARGS=" -log_dir=${IMPALA_LOG_DIR} -state_store_port=${IMPALA_STATE_STORE_PORT} -state_store_host=${IMPALA_STATE_STORE_HOST}"' >> /etc/default/impala
+          /etc/init.d/impala-catalog start
+          tail -f /var/log/impala/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: impala
+          mountPath: /etc/impala/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+        - name: hbase
+          mountPath: /etc/hbase/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: hive
+        configMap:
+          name: hive
+      - name: hbase
+        configMap:
+          name: hbase
+      - name: impala
+        configMap:
+          name: impala
+
