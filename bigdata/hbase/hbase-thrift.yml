@@ -20,7 +20,7 @@ kind: StatefulSet
 metadata:
   name: thrift
 spec:
-  serviceName: hbase-re
+  serviceName: hbase-thrift
   replicas: 1
   template:
     metadata:
@@ -42,16 +42,24 @@ spec:
         env:
         - name : HBASE_HEAPSIZE
           value: "200"          
+        - name : KRB5_CONFIG
+          value: "/etc/kerberos/conf/krb5.conf"          
         command:
         - sh
         - -c
         - |
-          mkdir -p /hbase/logs
-          hbase thrift start | tee -a /hbase/logs/hbase-thrift.log
+          echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
+          /etc/init.d/hbase-thrift start
+          tail -f /var/log/hbase/*
         volumeMounts:
         - name: hbase
-          mountPath: /hbase/conf                                     
+          mountPath: /etc/hbase/conf                                     
+        - name: kerberos
+          mountPath: /etc/kerberos/conf                                     
       volumes:
       - name: hbase
         configMap:
           name: hbase
+      - name: kerberos
+        configMap:
+          name: kerberos

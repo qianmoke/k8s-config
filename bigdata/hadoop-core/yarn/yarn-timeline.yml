@@ -7,14 +7,10 @@ metadata:
     app: yarn-tl
 spec:
   ports:
-  - port: 8088
+  - port: 8188
     name: web
-  - port: 8030
+  - port: 10020
     name: rpc-1
-  - port: 8031
-    name: rpc-2
-  - port: 8032
-    name: rpc-3          
   clusterIP: None
   selector:
     app: tl
@@ -35,18 +31,23 @@ spec:
       - name: hadoop
         imagePullPolicy: IfNotPresent
         image: pilchard/hadoop
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8188
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
 #        resources:
 #          requests:
 #            cpu: "100m"
         ports:
-        - containerPort: 8032
-          name: rpc-1
-        - containerPort: 8031
+        - containerPort: 8188
+          name: web
+        - containerPort: 10020
           name: rpc-2
-        - containerPort: 8030
-          name: rpc-3   
-        - containerPort: 8088
-          name: web     
         env:
         - name : HADOOP_HEAPSIZE
           value: "200"                      

@@ -107,4 +107,13 @@
     <name>oozie.base.url</name>
     <value>http://oozie:11000/oozie</value>
 </property>
+<!-- Default proxyuser configuration for Hue -->
+<property>
+    <name>oozie.service.ProxyUserService.proxyuser.hue.hosts</name>
+    <value>*</value>
+</property>
+<property>
+    <name>oozie.service.ProxyUserService.proxyuser.hue.groups</name>
+    <value>*</value>
+</property>
 </configuration>

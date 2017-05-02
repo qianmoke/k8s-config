@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: hbase
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         image: pilchard/hbase
 #        resources:
 #          requests:
@@ -46,8 +46,9 @@ spec:
         - sh
         - -c
         - |
-          mkdir -p /hbase/logs
-          hbase master start 2>&1 | tee -a /hbase/logs/hbase-master.log
+          echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
+          /etc/init.d/hbase-master start
+          tail -f /var/log/hbase/*
         volumeMounts:
         - name: hbase
           mountPath: /etc/hbase/conf          

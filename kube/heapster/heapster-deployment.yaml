@@ -1,3 +1,17 @@
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: heapster
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: kube-system
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -12,6 +26,7 @@ spec:
         k8s-app: heapster
         version: v6
     spec:
+#      serviceAccount: heapster
       containers:
       - name: heapster
         image: gcr.io/google_containers/heapster-amd64:v1.3.0-beta.1
@@ -19,6 +34,7 @@ spec:
         command:
         - /heapster
         - --source=kubernetes:https://kubernetes.default
+#?inClusterConfig=false&useServiceAccount=true
 #        - --sink=kafka:?brokers=kf-0.kafka:9092&brokers=kf-1.kafka:9092&brokers=kf-2.kafka:9092
 #        - --sink=elasticsearch:http://elasticsearch:9200?sniff=false
         - --sink=influxdb:http://monitoring-influxdb:8086

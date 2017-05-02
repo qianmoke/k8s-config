@@ -11,7 +11,7 @@ spec:
     targetPort: 18080
     name: web
   selector:
-    app: spark-master
+    app: spark-his
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -47,16 +47,6 @@ spec:
           mountPath: /etc/spark/conf 
         - name: hive
           mountPath: /etc/hive/conf
-      volumes:
-      - name: hadoop
-        configMap:
-          name: hadoop
-      - name: spark
-        configMap:
-          name: spark
-      - name: hive
-        configMap:
-          name: hive
       volumes:
       - name: hadoop
         configMap:

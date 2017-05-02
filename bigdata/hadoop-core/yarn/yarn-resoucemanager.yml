@@ -9,7 +9,7 @@ spec:
   ports:
   - port: 8088
     name: web
-  - port: 8030
+  - port: 8033
     name: rpc-1
   - port: 8031
     name: rpc-2
@@ -35,6 +35,16 @@ spec:
       - name: hadoop
         imagePullPolicy: IfNotPresent
         image: pilchard/hadoop
+        livenessProbe:
+          httpGet:
+            path: /ws/v1/cluster/info
+            port: 8088
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -43,7 +53,7 @@ spec:
           name: rpc-1
         - containerPort: 8031
           name: rpc-2
-        - containerPort: 8030
+        - containerPort: 8033
           name: rpc-3   
         - containerPort: 8088
           name: web     

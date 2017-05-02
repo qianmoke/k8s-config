@@ -29,12 +29,28 @@ spec:
       - name: hadoop
         imagePullPolicy: IfNotPresent
         image: pilchard/hadoop
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8042
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
 #        resources:
 #          requests:
 #            cpu: "100m"
         ports:
-        - containerPort: 8088
+        - containerPort: 8042
           name: web
+        - containerPort: 8040
+          name: rpc-1
+        - containerPort: 44743
+          name: rpc-2
+        - containerPort: 13562
+          name: rpc-3
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"          

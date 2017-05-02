@@ -37,6 +37,16 @@ spec:
 #        resources:
 #          requests:
 #            cpu: "100m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 19888
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         ports:
         - containerPort: 19888
           name: web

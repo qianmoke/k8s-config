@@ -46,9 +46,9 @@ spec:
         - sh
         - -c
         - |
-          mkdir -p /hbase/logs
-          nohup hbase regionserver start 2>&1 > /hbase/logs/hbase-regionserver.log &
-          tail -f /hbase/logs/hbase-regionserver.log
+          echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
+          /etc/init.d/hbase-regionserver start
+          tail -f /var/log/hbase/*
         volumeMounts:
         - name: hbase
           mountPath: /etc/hbase/conf          

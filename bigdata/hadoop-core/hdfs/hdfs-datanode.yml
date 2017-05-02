@@ -53,16 +53,93 @@ spec:
         command:
         - sh
         - -c
-        - hdfs datanode
+        - |
+          hdfs datanode
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf
         - name: dfs-dn
           mountPath: /tmp/dfs                                   
+        - name: hdfs-socket
+          mountPath: /var/run/hdfs-sockets
+      - name: hbase
+        imagePullPolicy: IfNotPresent
+        image: pilchard/hbase
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 16020
+          name: rpc
+        - containerPort: 16030
+          name: web
+        env:
+        - name : HBASE_HEAPSIZE
+          value: "500"          
+        command:
+        - sh
+        - -c
+        - |
+          echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
+          /etc/init.d/hbase-regionserver start
+          tail -f /var/log/hbase/*
+        volumeMounts:
+        - name: hbase
+          mountPath: /etc/hbase/conf          
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
+        - name: hdfs-socket
+          mountPath: /var/run/hdfs-sockets
+      - name: impalad
+        imagePullPolicy: IfNotPresent
+        image: pilchard/impala
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 8888
+          name: rpc
+        env:
+        - name : IMPALA_CATALOG_SERVICE_HOST
+          value: "catalog"          
+        - name : IMPALA_STATE_STORE_HOST
+          value: "statestore"          
+        command:
+        - sh
+        - -c
+        - |
+          sed -i "s/search/search hdfs-dn.default.svc.cluster.local catalog.default.svc.cluster.local/g" /etc/resolv.conf
+          echo "nameserver 10.96.0.10" > /etc/resolv.conf
+          echo "search hdfs-dn.default.svc.cluster.local catalog.default.svc.cluster.local default.svc.cluster.local svc.cluster.local cluster.local us-east-2.compute.internal" >> /etc/resolv.conf
+          echo "options ndots:5" >> /etc/resolv.conf
+          sed -i "s/IMPALA_CATALOG_SERVICE_HOST=127.0.0.1/IMPALA_CATALOG_SERVICE_HOST=$IMPALA_CATALOG_SERVICE_HOST/g" /etc/default/impala
+          sed -i "s/IMPALA_STATE_STORE_HOST=127.0.0.1/IMPALA_STATE_STORE_HOST=$IMPALA_STATE_STORE_HOST/g" /etc/default/impala
+          /etc/init.d/impala-server start
+          tail -f /var/log/impala/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: impala
+          mountPath: /etc/impala/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+        - name: hbase
+          mountPath: /etc/hbase/conf
+        - name: hdfs-socket
+          mountPath: /var/run/hdfs-sockets
       volumes:
       - name: hadoop
         configMap:
           name: hadoop
+      - name: hive
+        configMap:
+          name: hive
+      - name: hbase
+        configMap:
+          name: hbase
+      - name: impala
+        configMap:
+          name: impala
   volumeClaimTemplates:
   - metadata:
       name: dfs-dn
@@ -73,4 +150,13 @@ spec:
       resources:
         requests:
           storage: 20Gi
-          
+  - metadata:
+      name: hdfs-socket
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi
+

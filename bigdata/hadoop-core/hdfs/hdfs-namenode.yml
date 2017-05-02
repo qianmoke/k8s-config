@@ -28,7 +28,7 @@ spec:
         app: nn
     spec:
       containers:
-      - name: hadoop
+      - name: namenode
         imagePullPolicy: Always
         image: pilchard/hadoop
         resources:
@@ -49,30 +49,42 @@ spec:
           if [ ! -d /tmp/dfs/name ];then
              if [ `hostname` == "nn-0" ];then
                 hdfs namenode -format -force
-                hdfs zkfc -formatZK
+                hdfs zkfc -formatZK -force
              else
                 hdfs namenode -bootstrapStandby
              fi
           fi
-          mkdir -p /hadoop/logs            
-          echo "#!/usr/bin/env bash" > /usr/bin/nnok.sh
-          echo "ps -ef|grep java|grep namenode 2>&1 >/dev/null && exit 0 || exit 1" >> /usr/bin/nnok.sh
-          chmod +x /usr/bin/nnok.sh
-          nohup hdfs zkfc 2>&1 >/hadoop/logs/zkfc.log &
-          nohup hdfs namenode 2>&1 >/hadoop/logs/namenode.log &
-          sleep 5
-          tail -f /hadoop/logs/zkfc.log /hadoop/logs/namenode.log
-        livenessProbe:
-          exec:
-            command:
-            - "nnok.sh"
-          initialDelaySeconds: 15
-          timeoutSeconds: 5          
+          chown -R hdfs:hdfs /tmp/dfs
+          /etc/init.d/hadoop-hdfs-namenode start
+          tail -f /var/log/hadoop-hdfs/*
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf
         - name: dfs-nn
           mountPath: /tmp/dfs                      
+      - name: zkfc
+        imagePullPolicy: Always
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 50070
+          name: web
+        - containerPort: 8020
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "1000"        
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/hadoop-hdfs-zkfc start
+          tail -f /var/log/hadoop-hdfs/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
       volumes:
       - name: hadoop
         configMap:

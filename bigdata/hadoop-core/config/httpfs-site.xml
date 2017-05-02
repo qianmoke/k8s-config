@@ -13,5 +13,13 @@
   limitations under the License.
 -->
 <configuration>
-
+<!-- Hue HttpFS proxy user setting -->
+<property>
+  <name>httpfs.proxyuser.hue.hosts</name>
+  <value>*</value>
+</property>
+<property>
+  <name>httpfs.proxyuser.hue.groups</name>
+  <value>*</value>
+</property>
 </configuration>

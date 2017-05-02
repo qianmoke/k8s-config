@@ -12,7 +12,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0001
+      path: /run/data/pv0001
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -27,7 +27,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0002
+      path: /run/data/pv0002
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -42,7 +42,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0003
+      path: /run/data/pv0003
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -57,7 +57,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0004
+      path: /run/data/pv0004
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -72,7 +72,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0005
+      path: /run/data/pv0005
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -87,7 +87,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0006
+      path: /run/data/pv0006
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -102,7 +102,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0007
+      path: /run/data/pv0007
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -117,7 +117,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0008
+      path: /run/data/pv0008
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -132,7 +132,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0009
+      path: /run/data/pv0009
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -147,7 +147,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0010
+      path: /run/data/pv0010
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -162,7 +162,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0011
+      path: /run/data/pv0011
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -177,7 +177,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0012
+      path: /run/data/pv0012
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -192,7 +192,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0013
+      path: /run/data/pv0013
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -207,5 +207,19 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /data/pv0014
-
+      path: /run/data/pv0014
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv0015
+    annotations:
+      volume.beta.kubernetes.io/storage-class: "slow"
+  spec:
+    capacity:
+      storage: 20Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    hostPath:
+      path: /run/data/pv0015
