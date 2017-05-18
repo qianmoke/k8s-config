@@ -35,6 +35,12 @@ spec:
         ports:
         - containerPort: 9803
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 9083 
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"          
@@ -42,8 +48,7 @@ spec:
         - sh
         - -c
         - |
-          /etc/init.d/hive-metastore start
-          tail -f /var/log/hive/*
+          su -s /bin/bash hive -c "hive --service metastore"
         volumeMounts:
         - name: hive
           mountPath: /etc/hive/conf                                     

@@ -62,8 +62,8 @@ spec:
         - sh
         - -c
         - |
-          /etc/init.d/hadoop-yarn-proxyserver start
-          tail -f /var/log/hadoop-yarn/*
+          #/etc/init.d/hadoop-yarn-proxyserver start
+          su -s /bin/bash yarn -c "yarn proxyserver"
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf

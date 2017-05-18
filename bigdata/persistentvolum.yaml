@@ -223,3 +223,18 @@
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
       path: /run/data/pv0015
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv0016
+    annotations:
+      volume.beta.kubernetes.io/storage-class: "slow"
+  spec:
+    capacity:
+      storage: 20Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    hostPath:
+      path: /run/data/pv0016

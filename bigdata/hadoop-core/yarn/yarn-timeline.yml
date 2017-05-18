@@ -54,7 +54,7 @@ spec:
         command:
         - sh
         - -c
-        - yarn timelineserver
+        - su -s /bin/bash yarn -c "yarn timelineserver"
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf

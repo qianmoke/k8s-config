@@ -42,6 +42,17 @@ spec:
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"        
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 50070
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
+
         command:
         - sh
         - -c
@@ -55,8 +66,8 @@ spec:
              fi
           fi
           chown -R hdfs:hdfs /tmp/dfs
-          /etc/init.d/hadoop-hdfs-namenode start
-          tail -f /var/log/hadoop-hdfs/*
+          su -s /bin/bash hdfs -c "hdfs namenode"
+          #/etc/init.d/hadoop-hdfs-namenode start
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf
@@ -80,8 +91,8 @@ spec:
         - sh
         - -c
         - |
-          /etc/init.d/hadoop-hdfs-zkfc start
-          tail -f /var/log/hadoop-hdfs/*
+          #/etc/init.d/hadoop-hdfs-zkfc start
+          su -s /bin/bash hdfs -c "hdfs zkfc"
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf

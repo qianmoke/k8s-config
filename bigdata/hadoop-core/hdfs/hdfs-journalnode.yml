@@ -39,13 +39,25 @@ spec:
           name: web
         - containerPort: 8485
           name: rpc
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8480
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "200"
         command:
         - sh
-        - -c
-        - hdfs journalnode
+        - -c 
+        - |
+           chown -R hdfs:hdfs /data/1/dfs/jn && \
+           su -s /bin/bash hdfs -c "hdfs journalnode"
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf  

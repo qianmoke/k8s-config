@@ -49,17 +49,31 @@ spec:
           name: rpc
         env:
         - name : HADOOP_HEAPSIZE
-          value: "500"          
+          value: "1000"          
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 50075
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         command:
         - sh
         - -c
         - |
-          hdfs datanode
+           . /etc/default/hadoop
+           chown -R hdfs:hdfs /tmp/dfs
+           chown -R hdfs:hdfs /var/run/hdfs-sockets
+           su -s /bin/bash hdfs -c "hdfs datanode"           
+           #/etc/init.d/hadoop-hdfs-datanode start
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf
         - name: dfs-dn
-          mountPath: /tmp/dfs                                   
+          mountPath: /tmp/dfs
         - name: hdfs-socket
           mountPath: /var/run/hdfs-sockets
       - name: hbase
@@ -69,20 +83,32 @@ spec:
 #          requests:
 #            cpu: "100m"
         ports:
-        - containerPort: 16020
+        - containerPort: 60020
           name: rpc
-        - containerPort: 16030
+        - containerPort: 60030
           name: web
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 60030
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HBASE_HEAPSIZE
-          value: "500"          
+          value: "1000"          
         command:
         - sh
         - -c
         - |
           echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
-          /etc/init.d/hbase-regionserver start
-          tail -f /var/log/hbase/*
+          . /etc/default/hbase
+          . /etc/default/hadoop
+          su -s /bin/bash hbase -c "hbase regionserver start"
+          #/etc/init.d/hbase-regionserver start
         volumeMounts:
         - name: hbase
           mountPath: /etc/hbase/conf          
@@ -97,8 +123,18 @@ spec:
 #          requests:
 #            cpu: "100m"
         ports:
-        - containerPort: 8888
-          name: rpc
+        - containerPort: 25000
+          name: web
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 25000
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : IMPALA_CATALOG_SERVICE_HOST
           value: "catalog"          
@@ -114,8 +150,8 @@ spec:
           echo "options ndots:5" >> /etc/resolv.conf
           sed -i "s/IMPALA_CATALOG_SERVICE_HOST=127.0.0.1/IMPALA_CATALOG_SERVICE_HOST=$IMPALA_CATALOG_SERVICE_HOST/g" /etc/default/impala
           sed -i "s/IMPALA_STATE_STORE_HOST=127.0.0.1/IMPALA_STATE_STORE_HOST=$IMPALA_STATE_STORE_HOST/g" /etc/default/impala
+          sed -i "s/>>.*/\'\"/g" /etc/init.d/impala-server
           /etc/init.d/impala-server start
-          tail -f /var/log/impala/*
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf                         

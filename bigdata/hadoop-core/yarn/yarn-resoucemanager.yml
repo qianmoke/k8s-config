@@ -36,12 +36,8 @@ spec:
         imagePullPolicy: IfNotPresent
         image: pilchard/hadoop
         livenessProbe:
-          httpGet:
-            path: /ws/v1/cluster/info
+          tcpSocket:
             port: 8088
-            httpHeaders:
-              - name: X-Custom-Header
-                value: Awesome
           initialDelaySeconds: 15
           periodSeconds: 15
           timeoutSeconds: 5
@@ -57,15 +53,24 @@ spec:
           name: rpc-3   
         - containerPort: 8088
           name: web     
+        livenessProbe:
+          tcpSocket:
+            port: 8088
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"                      
         command:
-        - sh
+        - su
+        - -s 
+        - /bin/bash
+        - yarn
         - -c
         - |
-          /etc/init.d/hadoop-yarn-resourcemanager start
-          tail -f /var/log/hadoop-yarn/*
+          . /etc/default/hadoop && yarn resourcemanager
+          #/etc/init.d/hadoop-yarn-resourcemanager start
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf                            

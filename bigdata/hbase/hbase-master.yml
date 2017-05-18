@@ -35,10 +35,20 @@ spec:
 #          requests:
 #            cpu: "100m"
         ports:
-        - containerPort: 16000
+        - containerPort: 60000
           name: rpc
-        - containerPort: 16010
+        - containerPort: 60010
           name: web
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 60010
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HBASE_HEAPSIZE
           value: "1000"          
@@ -47,8 +57,8 @@ spec:
         - -c
         - |
           echo "hbase - nofile  32768" > /etc/security/limits.d/hbase.conf
-          /etc/init.d/hbase-master start
-          tail -f /var/log/hbase/*
+          hdfs dfs -ls /hbase || su -s /bin/bash hdfs -c "hdfs dfs -mkdir /hbase && hdfs dfs -chown -R hbase:hbase /hbase"
+          su -s /bin/bash hbase -c "hbase master start"
         volumeMounts:
         - name: hbase
           mountPath: /etc/hbase/conf          
