@@ -47,7 +47,7 @@ spec:
         - sh
         - -c
         - |
-          hdfs dfs -ls /user/hive || su -s /bin/bash hdfs -c "hdfs dfs -mkdir -p /user/hive && hdfs dfs -chmod -R 1777 /user && hdfs dfs -chown -R hive:hive /user/hive"
+          hdfs dfs -ls /user/hive || su -s /bin/bash hdfs -c "hdfs dfs -mkdir -p /user/hive/warehouse && hdfs dfs -chmod -R 1777 /user && hdfs dfs -chown -R hive:hive /user/hive && hdfs dfs -chmod 1777 /user/hive/warehouse"
           su -s /bin/bash hive -c "hive --service hiveserver2"
         volumeMounts:
         - name: hive

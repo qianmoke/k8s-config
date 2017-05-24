@@ -38,6 +38,12 @@ spec:
 #        resources:
 #          requests:
 #            cpu: "100m"
+        livenessProbe:
+          tcpSocket:
+            port: 25020
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         ports:
         - containerPort: 25020
           name: rpc

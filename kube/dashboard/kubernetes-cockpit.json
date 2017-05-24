@@ -23,6 +23,7 @@
                   }
                },
                "spec":{
+                  "serviceAccountName": "kubernetes-dashboard",
                   "containers":[{
                     "name": "kubernetes-cockpit",
                     "image": "cockpit/kubernetes:latest",
@@ -31,7 +32,7 @@
                         "protocol":"TCP"
                      }],
                     "env":[{
-                        "name": "KUBE_INSECURE",
+                        "name": "KUBERNETES_INSECURE",
                         "value": "false"
                     }]
                   }]

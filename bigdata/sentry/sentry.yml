@@ -35,6 +35,12 @@ spec:
         ports:
         - containerPort: 8038
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 8038
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         command:
         - sh
         - -c

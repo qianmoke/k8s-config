@@ -36,6 +36,12 @@ spec:
         ports:
         - containerPort: 24000
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 25010
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "200"          

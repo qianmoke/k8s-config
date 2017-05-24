@@ -9,7 +9,7 @@ spec:
   - port: 8983
     targetPort: 8983
     name: solr
-#  clusterIP: None
+  clusterIP: None
   selector:
     app: solr
 ---
@@ -35,6 +35,12 @@ spec:
         ports:
         - containerPort: 8983
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 8983
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name: SOLR_ZK_ENSEMBLE
           value: "zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181/solr"          
@@ -53,6 +59,7 @@ spec:
           echo "SOLR_ZK_ENSEMBLE=$SOLR_ZK_ENSEMBLE" >> /etc/default/solr
           echo "SOLR_HDFS_HOME=$SOLR_HDFS_HOME" >> /etc/default/solr
           /etc/init.d/solr-server start
+          sleep 5
           tail -f /var/log/solr/*
         volumeMounts:
         - name: hadoop

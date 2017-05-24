@@ -5,7 +5,6 @@ metadata:
   labels:
     app: hue
 spec:
-  type: NodePort
   ports:
   - port: 8888
     targetPort: 8888
@@ -34,14 +33,25 @@ spec:
         ports:
         - containerPort: 8888
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 8888 
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
-        - name : HADOOP_HEAPSIZE
-          value: "200"          
+        - name: SOLR_ZK_ENSEMBLE
+          value: "zk-0.zk-headless:2181,zk-1.zk-headless:2181,zk-2.zk-headless:2181/solr"          
+        - name: SOLR_HDFS_HOME
+          value: "hdfs://hdfscluster/solr"
         command:
         - sh
         - -c
         - |
+          echo "SOLR_ZK_ENSEMBLE=$SOLR_ZK_ENSEMBLE" >> /etc/default/solr
+          echo "SOLR_HDFS_HOME=$SOLR_HDFS_HOME" >> /etc/default/solr
           /etc/init.d/hue start
+          sleep 5
           tail -f /var/log/hue/*
         volumeMounts:
         - name: hadoop

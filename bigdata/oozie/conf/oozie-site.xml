@@ -116,4 +116,20 @@
     <name>oozie.service.ProxyUserService.proxyuser.hue.groups</name>
     <value>*</value>
 </property>
+<property>
+   <name>oozie.email.smtp.host</name>
+   <value>qiye.aliyun.com</value>
+</property>
+<property>
+    <name>oozie.email.smtp.port</name>
+    <value>25</value>
+</property>
+<property>
+    <name>oozie.email.smtp.user</name>
+    <value>dun.lu@ludun.xin</value>
+</property>
+<property>
+    <name>oozie.email.smtp.password</name>
+    <value>D@zzilovey9</value>
+</property>
 </configuration>

@@ -5,7 +5,6 @@ metadata:
   labels:
     app: oozie
 spec:
-  type: NodePort
   ports:
   - port: 11000
     targetPort: 11000
@@ -34,6 +33,12 @@ spec:
         ports:
         - containerPort: 11000
           name: rpc
+        livenessProbe:
+          tcpSocket:
+            port: 11000
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "200"          
@@ -43,8 +48,9 @@ spec:
         - |
           rm -f /etc/oozie/conf/*
           cp -p /tmp/oozie/conf/* /etc/oozie/conf
+          cp -p /etc/hadoop/conf/* /etc/oozie/conf/hadoop-conf
+          sed -i '/2>&1/d' /usr/lib/bigtop-tomcat/bin/catalina.sh
           /etc/init.d/oozie start
-          tail -f /var/log/oozie/*
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf                         

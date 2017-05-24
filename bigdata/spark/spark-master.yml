@@ -37,6 +37,12 @@ spec:
 #        resources:
 #          requests:
 #            cpu: "100m"
+        livenessProbe:
+          tcpSocket:
+            port: 18080
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         ports:
         - containerPort: 18080
           name: web
