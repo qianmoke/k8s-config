@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress 
+  namespace: default
+spec:
+  rules:
+  - host: wordpress.ludun.xin
+    http:
+      paths:
+      - backend:
+          serviceName: wordpress
+          servicePort: 80
+
