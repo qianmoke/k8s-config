@@ -6,7 +6,7 @@ metadata:
     prometheus: k8s
 spec:
   replicas: 1
-  retention: 12h
+  retention: 6h
   version: v1.6.1
   serviceAccountName: prometheus-k8s
   serviceMonitorSelector:
@@ -22,17 +22,17 @@ spec:
       # memory. Modify based on your target and time-series count for
       # production use. This value is mainly meant for demonstration/testing
       # purposes.
-      memory: 8Gi
+      memory: 4Gi
   alerting:
     alertmanagers:
     - namespace: monitoring
       name: alertmanager-main
       port: web
-  storage:
-    class: slow
-    selector:
-      matchLabels:
-        class: slow 
-    resources:
-      requests:
-        storage: 20Gi
+#  storage:
+#    class: slow
+#    selector:
+#      matchLabels:
+#        class: slow 
+#    resources:
+#      requests:
+#        storage: 20Gi

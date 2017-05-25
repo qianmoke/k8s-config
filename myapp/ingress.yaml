@@ -2,10 +2,25 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: wordpress 
-  namespace: default
+  namespace: myapp
 spec:
   rules:
   - host: wordpress.ludun.xin
+    http:
+      paths:
+      - backend:
+          serviceName: wordpress
+          servicePort: 80
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: blog 
+  namespace: myapp
+spec:
+  rules:
+  - host: blog.ludun.xin
     http:
       paths:
       - backend:
