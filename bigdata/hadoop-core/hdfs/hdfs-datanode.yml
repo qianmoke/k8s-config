@@ -68,6 +68,7 @@ spec:
            chown -R hdfs:hdfs /tmp/dfs
            chown -R hdfs:hdfs /var/run/hdfs-sockets
            su -s /bin/bash hdfs -c "hdfs datanode"           
+           sleep 3600
            #/etc/init.d/hadoop-hdfs-datanode start
         volumeMounts:
         - name: hadoop
@@ -117,7 +118,7 @@ spec:
         - name: hdfs-socket
           mountPath: /var/run/hdfs-sockets
       - name: impalad
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         image: pilchard/impala
 #        resources:
 #          requests:
@@ -125,16 +126,6 @@ spec:
         ports:
         - containerPort: 25000
           name: web
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 25000
-            httpHeaders:
-              - name: X-Custom-Header
-                value: Awesome
-          initialDelaySeconds: 15
-          periodSeconds: 15
-          timeoutSeconds: 5
         env:
         - name : IMPALA_CATALOG_SERVICE_HOST
           value: "catalog"          

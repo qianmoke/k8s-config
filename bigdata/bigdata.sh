@@ -7,6 +7,8 @@ kubectl create configmap oozie --from-file k8s-config/bigdata/oozie/conf
 kubectl create configmap sqoop --from-file k8s-config/bigdata/sqoop/conf
 kubectl create configmap sentry --from-file k8s-config/bigdata/sentry/conf
 kubectl create configmap impala --from-file k8s-config/bigdata/impala/conf
+#zookeeper
+kubectl apply -f k8s-config/bigdata/zookeeper/
 
 #hdfs
 kubectl apply -f k8s-config/bigdata/hadoop-core/hdfs/hdfs-journalnode.yml

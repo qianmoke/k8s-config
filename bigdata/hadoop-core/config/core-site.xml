@@ -15,11 +15,26 @@
 -->
 
 <!-- Put site-specific property overrides in this file. -->
-
 <configuration>
+  <property>
+    <name>fs.viewfs.mounttable.hdfscluster.link./backup</name>
+    <value>hdfs://pcluster</value>
+  </property>
+  <property>
+    <name>fs.viewfs.mounttable.hdfscluster.link./user</name>
+    <value>hdfs://hdfscluster/user</value>
+  </property>
+  <property>
+    <name>fs.viewfs.mounttable.hdfscluster.link./tmp</name>
+    <value>hdfs://hdfscluster/tmp</value>
+  </property>
+  <property>
+    <name>fs.viewfs.mounttable.hdfscluster.link./hbase</name>
+    <value>hdfs://hdfscluster/hbase</value>
+  </property>
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://hdfscluster</value>
+        <value>hdfs://hdfscluster/</value>
     </property>
     <property>
         <name>hadoop.tmp.dir</name>

@@ -19,7 +19,7 @@
 <configuration>
         <property>
           <name>dfs.nameservices</name>
-          <value>hdfscluster</value>
+          <value>hdfscluster,pcluster</value>
         </property>
         <property>
                 <name>dfs.ha.namenodes.hdfscluster</name>
@@ -33,11 +33,7 @@
           <name>dfs.namenode.rpc-address.hdfscluster.nn2</name>
           <value>nn-1.hdfs-nn:8020</value>
         </property>
-    <property>
-        <name>dfs.replication</name>
-        <value>3</value>
-    </property>
-    <property>
+        <property>
           <name>dfs.namenode.http-address.hdfscluster.nn1</name>
           <value>nn-0.hdfs-nn:50070</value>
         </property>
@@ -46,8 +42,36 @@
           <value>nn-1.hdfs-nn:50070</value>
         </property>
         <property>
-          <name>dfs.namenode.shared.edits.dir</name>
+                <name>dfs.ha.namenodes.pcluster</name>
+                <value>pnn1,pnn2</value>
+        </property>
+        <property>
+          <name>dfs.namenode.rpc-address.pcluster.pnn1</name>
+          <value>pnn-0.hdfs-nn:8020</value>
+        </property>
+        <property>
+          <name>dfs.namenode.rpc-address.pcluster.pnn2</name>
+          <value>pnn-1.hdfs-nn:8020</value>
+        </property>
+        <property>
+          <name>dfs.replication</name>
+          <value>3</value>
+        </property>
+        <property>
+          <name>dfs.namenode.http-address.pcluster.pnn1</name>
+          <value>pnn-0.hdfs-nn:50070</value>
+        </property>
+        <property>
+          <name>dfs.namenode.http-address.pcluster.pnn2</name>
+          <value>pnn-1.hdfs-nn:50070</value>
+        </property>
+        <property>
+          <name>dfs.namenode.shared.edits.dir.hdfscluster</name>
           <value>qjournal://jn-0.hdfs-jn:8485;jn-1.hdfs-jn;jn-2.hdfs-jn/hdfscluster</value>
+        </property>
+        <property>
+          <name>dfs.namenode.shared.edits.dir.pcluster</name>
+          <value>qjournal://jn-0.hdfs-jn:8485;jn-1.hdfs-jn;jn-2.hdfs-jn/pcluster</value>
         </property>
         <property>
           <name>dfs.journalnode.edits.dir</name>
@@ -55,6 +79,10 @@
         </property>
         <property>
           <name>dfs.client.failover.proxy.provider.hdfscluster</name>
+          <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+        </property>
+        <property>
+          <name>dfs.client.failover.proxy.provider.pcluster</name>
           <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
         </property>
         <property>
@@ -95,4 +123,8 @@
   <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
   <value>true</value>
 </property> 
+<property>
+  <name>dfs.datanode.max.locked.memory</name>
+  <value>65536</value>
+</property>
 </configuration>

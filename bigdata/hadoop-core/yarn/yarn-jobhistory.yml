@@ -54,16 +54,6 @@ spec:
           name: rpc-1
         - containerPort: 10033
           name: rpc-2
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 19888
-            httpHeaders:
-              - name: X-Custom-Header
-                value: Awesome
-          initialDelaySeconds: 15
-          periodSeconds: 15
-          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "200"                  
@@ -71,8 +61,9 @@ spec:
         - sh
         - -c
         - |
-          hdfs dfs -ls /tmp || su -s /bin/bash hdfs -c "hdfs dfs -mkdir /tmp && hdfs dfs -chmod -R 1777 /tmp"
-          su -s /bin/bash mapred -c "mapred historyserver"
+          hdfs dfs -ls /tmp || su -s /bin/bash hdfs -c "hdfs dfs -mkdir /tmp && hdfs dfs -chmod -R 1777 /tmp" 
+          hdfs dfs -ls /user/history || su -s /bin/bash hdfs -c "hdfs dfs -mkdir /user/history && hdfs dfs -chmod -R 1777 /user/history &&  hdfs dfs -chown -R mapred:mapred /user/history" 
+          su -s /bin/bash - mapred -c "mapred historyserver"
           #/etc/init.d/hadoop-mapreduce-historyserver start
         volumeMounts:
         - name: hadoop

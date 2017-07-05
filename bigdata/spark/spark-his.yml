@@ -44,7 +44,7 @@ spec:
         - sh
         - -c
         - |
-          hdfs dfs -ls /user/spark/applicationHistory || su -s /bin/bash hdfs -c "hdfs dfs -mkdir -p /user/spark/applicationHistory && hdfs dfs -chown spark:spark /user/spark"
+          hdfs dfs -ls /user/spark/applicationHistory || su -s /bin/bash - hdfs -c "hdfs dfs -mkdir -p /user/spark/applicationHistory && hdfs dfs -chown -R spark:spark /user/spark"
           /etc/init.d/spark-history-server start
           tail -f /var/log/spark/*
         volumeMounts:

@@ -73,17 +73,13 @@
     <value>file:///data/1/yarn/logs,file:///data/2/yarn/logs,file:///data/3/yarn/logs</value>
   </property>
   <property>
-    <name>yarn.log.aggregation-enable</name>
+    <name>yarn.log-aggregation-enable</name>
     <value>true</value>
   </property>
   <property>
     <description>Where to aggregate logs</description>
     <name>yarn.nodemanager.remote-app-log-dir</name>
-    <value>hdfs://hdfscluster/hadoop-yarn</value>
-  </property>
-  <property>
-    <name>yarn.app.mapreduce.am.staging-dir</name>
-    <value>/user</value>
+    <value>hdfs://hdfscluster/tmp/hadoop-yarn</value>
   </property>
  <property>
    <description>Enable RM to recover state after starting. If true, then

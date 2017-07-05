@@ -59,14 +59,14 @@ spec:
         - |
           if [ ! -d /tmp/dfs/name ];then
              if [ `hostname` == "nn-0" ];then
-                hdfs namenode -format -force
-                hdfs zkfc -formatZK -force
-             else
-                hdfs namenode -bootstrapStandby
+                su - hdfs -c "hdfs namenode -format -force -clusterId hdfscluster"
+                su - hdfs -c "hdfs zkfc -formatZK -force"
+             else 
+               su - hdfs -c "hdfs namenode -bootstrapStandby"
              fi
           fi
           chown -R hdfs:hdfs /tmp/dfs
-          su -s /bin/bash hdfs -c "hdfs namenode"
+          su -s /bin/bash - hdfs -c "hdfs namenode"
           #/etc/init.d/hadoop-hdfs-namenode start
         volumeMounts:
         - name: hadoop
@@ -92,7 +92,7 @@ spec:
         - -c
         - |
           #/etc/init.d/hadoop-hdfs-zkfc start
-          su -s /bin/bash hdfs -c "hdfs zkfc"
+          su -s /bin/bash - hdfs -c "hdfs zkfc"
         volumeMounts:
         - name: hadoop
           mountPath: /etc/hadoop/conf
@@ -110,3 +110,99 @@ spec:
       resources:
         requests:
           storage: 2Gi
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: pnn
+spec:
+  serviceName: hdfs-nn
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nn
+    spec:
+      containers:
+      - name: namenode
+        imagePullPolicy: Always
+        image: pilchard/hadoop
+        resources:
+          requests:
+            cpu: "100m"
+        ports:
+        - containerPort: 50070
+          name: web
+        - containerPort: 8020
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "1000"        
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 50070
+            httpHeaders:
+              - name: X-Custom-Header
+                value: Awesome
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
+        command:
+        - sh
+        - -c
+        - |
+          if [ ! -d /tmp/dfs/name ];then
+             if [ `hostname` == "pnn-0" ];then
+                su - hdfs -c "hdfs namenode -format -force -clusterId pcluster"
+                su - hdfs -c "hdfs zkfc -formatZK -force"
+             else
+               su - hdfs -c "hdfs namenode -bootstrapStandby"
+             fi
+          fi
+          chown -R hdfs:hdfs /tmp/dfs
+          su -s /bin/bash - hdfs -c "hdfs namenode"
+          #/etc/init.d/hadoop-hdfs-namenode start
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
+        - name: dfs-nn
+          mountPath: /tmp/dfs                      
+      - name: zkfc
+        imagePullPolicy: Always
+        image: pilchard/hadoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 50070
+          name: web
+        - containerPort: 8020
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "1000"        
+        command:
+        - sh
+        - -c
+        - |
+          #/etc/init.d/hadoop-hdfs-zkfc start
+          su -s /bin/bash - hdfs -c "hdfs zkfc"
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+  volumeClaimTemplates:
+  - metadata:
+      name: dfs-nn
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow 
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi
+

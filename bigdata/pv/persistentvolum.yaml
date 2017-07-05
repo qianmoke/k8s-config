@@ -230,6 +230,8 @@
     name: pv0016
     annotations:
       volume.beta.kubernetes.io/storage-class: "slow"
+    labels:
+      type: local
   spec:
     capacity:
       storage: 20Gi
@@ -245,6 +247,8 @@
     name: pv0017
     annotations:
       volume.beta.kubernetes.io/storage-class: "slow"
+    labels:
+      type: local
   spec:
     capacity:
       storage: 20Gi
@@ -254,3 +258,37 @@
     hostPath:
       path: /data/pv0017
 
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv0019
+    annotations:
+      volume.beta.kubernetes.io/storage-class: "slow"
+    labels:
+      type: local
+  spec:
+    capacity:
+      storage: 20Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    hostPath:
+      path: /data/pv0019
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv0018
+    annotations:
+      volume.beta.kubernetes.io/storage-class: "slow"
+    labels:
+      type: local
+  spec:
+    capacity:
+      storage: 20Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    hostPath:
+      path: /data/pv0018

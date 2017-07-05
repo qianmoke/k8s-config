@@ -53,6 +53,9 @@ spec:
         volume.beta.kubernetes.io/storage-class: slow 
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      selector:
+        matchLabels:
+          type: "local"
       resources:
         requests:
           storage: 20Gi

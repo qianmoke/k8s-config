@@ -68,5 +68,17 @@ spec:
       - backend:
           serviceName: alertmanager-main
           servicePort: 9093
-
-
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mapjob
+  namespace: default
+spec:
+  rules:
+  - host: mapjob.ludun.xin
+    http:
+      paths:
+      - backend:
+          serviceName: mapred-job
+          servicePort: 19888

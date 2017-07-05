@@ -28,6 +28,10 @@
      <name>mapreduce.jobhistory.webapp.address</name>
      <value>job-0.mapred-job:19888</value>
    </property>
+<property>
+    <name>yarn.app.mapreduce.am.staging-dir</name>
+    <value>/user</value>
+</property>
 </configuration>
 
 
