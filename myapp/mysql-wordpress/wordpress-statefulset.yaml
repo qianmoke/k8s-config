@@ -53,7 +53,7 @@ spec:
   - metadata:
       name: wp 
       annotations:
-        volume.beta.kubernetes.io/storage-class: slow 
+        volume.beta.kubernetes.io/storage-class: stable
     spec:
       accessModes: [ "ReadWriteOnce" ]
       selector:

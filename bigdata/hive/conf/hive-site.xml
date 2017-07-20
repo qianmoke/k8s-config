@@ -18,7 +18,7 @@
 <configuration>
 	<property>
 	  <name>javax.jdo.option.ConnectionURL</name>
-	  <value>jdbc:mysql://yidb.chy68uoovmq4.us-east-2.rds.amazonaws.com:3306/metastore?useSSL=false</value>
+	  <value>jdbc:mysql://mysql-read:3306/metastore?useSSL=false</value>
 	  <description>the URL of the MySQL database</description>
 	</property>
 	

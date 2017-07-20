@@ -27,19 +27,19 @@
         </property>
         <property>
           <name>dfs.namenode.rpc-address.hdfscluster.nn1</name>
-          <value>nn-0.hdfs-nn:8020</value>
+          <value>nn-0.hdfs-nn.default.svc.cluster.local:8020</value>
         </property>
         <property>
           <name>dfs.namenode.rpc-address.hdfscluster.nn2</name>
-          <value>nn-1.hdfs-nn:8020</value>
+          <value>nn-1.hdfs-nn.default.svc.cluster.local:8020</value>
         </property>
         <property>
           <name>dfs.namenode.http-address.hdfscluster.nn1</name>
-          <value>nn-0.hdfs-nn:50070</value>
+          <value>nn-0.hdfs-nn.default.svc.cluster.local:50070</value>
         </property>
         <property>
           <name>dfs.namenode.http-address.hdfscluster.nn2</name>
-          <value>nn-1.hdfs-nn:50070</value>
+          <value>nn-1.hdfs-nn.default.svc.cluster.local:50070</value>
         </property>
         <property>
                 <name>dfs.ha.namenodes.pcluster</name>
@@ -47,11 +47,11 @@
         </property>
         <property>
           <name>dfs.namenode.rpc-address.pcluster.pnn1</name>
-          <value>pnn-0.hdfs-nn:8020</value>
+          <value>pnn-0.hdfs-nn.default.svc.cluster.local:8020</value>
         </property>
         <property>
           <name>dfs.namenode.rpc-address.pcluster.pnn2</name>
-          <value>pnn-1.hdfs-nn:8020</value>
+          <value>pnn-1.hdfs-nn.default.svc.cluster.local:8020</value>
         </property>
         <property>
           <name>dfs.replication</name>
@@ -59,11 +59,11 @@
         </property>
         <property>
           <name>dfs.namenode.http-address.pcluster.pnn1</name>
-          <value>pnn-0.hdfs-nn:50070</value>
+          <value>pnn-0.hdfs-nn.default.svc.cluster.local:50070</value>
         </property>
         <property>
           <name>dfs.namenode.http-address.pcluster.pnn2</name>
-          <value>pnn-1.hdfs-nn:50070</value>
+          <value>pnn-1.hdfs-nn.default.svc.cluster.local:50070</value>
         </property>
         <property>
           <name>dfs.namenode.shared.edits.dir.hdfscluster</name>

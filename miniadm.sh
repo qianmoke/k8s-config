@@ -17,6 +17,7 @@ kubeadm init
 kubectl taint nodes --all node-role.kubernetes.io/master-
 #kubeadm join --token=e49bcc.2d4ba0c53d6d616f 172.31.27.54
 kubectl apply -f https://git.io/weave-kube-1.6
+kubectl apply -f http://docs.projectcalico.org/v2.3/getting-started/kubernetes/installation/hosted/kubeadm/1.6/calico.yaml
 kubectl create -f https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml
 kubectl apply -f 'https://cloud.weave.works/launch/k8s/weavescope.yaml?service-token=<token>'
 kubectl patch node k8s-node-1 -p '{"spec":{"unschedulable":true}}'

@@ -33,7 +33,7 @@ spec:
         image: pilchard/hadoop
         resources:
           requests:
-            cpu: "500m"
+            cpu: "100m"
         ports:
         - containerPort: 8480
           name: web

@@ -59,7 +59,7 @@ spec:
         - |
           if [ ! -d /tmp/dfs/name ];then
              if [ `hostname` == "nn-0" ];then
-                su - hdfs -c "hdfs namenode -format -force -clusterId hdfscluster"
+                su - hdfs -c "hdfs namenode -format -force -clusterId prod"
                 su - hdfs -c "hdfs zkfc -formatZK -force"
              else 
                su - hdfs -c "hdfs namenode -bootstrapStandby"
@@ -154,7 +154,7 @@ spec:
         - |
           if [ ! -d /tmp/dfs/name ];then
              if [ `hostname` == "pnn-0" ];then
-                su - hdfs -c "hdfs namenode -format -force -clusterId pcluster"
+                su - hdfs -c "hdfs namenode -format -force -clusterId prod"
                 su - hdfs -c "hdfs zkfc -formatZK -force"
              else
                su - hdfs -c "hdfs namenode -bootstrapStandby"
