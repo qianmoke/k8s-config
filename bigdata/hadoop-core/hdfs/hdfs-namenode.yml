@@ -30,7 +30,7 @@ spec:
       containers:
       - name: namenode
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image: docker.io/pilchard/hadoop
         resources:
           requests:
             cpu: "100m"
@@ -75,7 +75,7 @@ spec:
           mountPath: /tmp/dfs                      
       - name: zkfc
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image:  docker.io/pilchard/hadoop
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -126,7 +126,7 @@ spec:
       containers:
       - name: namenode
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image: docker.io/pilchard/hadoop
         resources:
           requests:
             cpu: "100m"
@@ -170,7 +170,7 @@ spec:
           mountPath: /tmp/dfs                      
       - name: zkfc
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image: docker.io/pilchard/hadoop
 #        resources:
 #          requests:
 #            cpu: "100m"

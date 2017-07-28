@@ -28,8 +28,8 @@ spec:
     spec:
       containers:
       - name: statestore
-        imagePullPolicy: IfNotPresent
-        image: pilchard/impala
+        imagePullPolicy: Always
+        image: docker.io/pilchard/impala
 #        resources:
 #          requests:
 #            cpu: "100m"

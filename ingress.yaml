@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   rules:
-  - host: grafana.ludun.xin
+  - host: grafana.kudoop.cn
     http:
       paths:
       - backend:
@@ -19,7 +19,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: hue.ludun.xin
+  - host: hue.kudoop.cn
     http:
       paths:
       - backend:
@@ -33,7 +33,7 @@ metadata:
   namespace: kube-system
 spec:
   rules:
-  - host: dashboard.ludun.xin
+  - host: dashboard.kudoop.cn
     http:
       paths:
       - backend:
@@ -47,7 +47,7 @@ metadata:
   namespace: monitoring
 spec:
   rules:
-  - host: prometheus.ludun.xin
+  - host: prometheus.kudoop.cn
     http:
       paths:
       - backend:
@@ -62,7 +62,7 @@ metadata:
   namespace: monitoring
 spec:
   rules:
-  - host: alertmanager.ludun.xin
+  - host: alertmanager.kudoop.cn
     http:
       paths:
       - backend:
@@ -76,7 +76,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: mapjob.ludun.xin
+  - host: mapjob.kudoop.cn
     http:
       paths:
       - backend:

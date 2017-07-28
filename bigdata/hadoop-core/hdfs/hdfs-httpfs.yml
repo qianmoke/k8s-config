@@ -26,8 +26,8 @@ spec:
     spec:
       containers:
       - name: httpfs
-        imagePullPolicy: IfNotPresent
-        image: pilchard/hadoop
+        imagePullPolicy: Always
+        image: docker.io/pilchard/hadoop
 #        resources:
 #          requests:
 #            cpu: "100m"

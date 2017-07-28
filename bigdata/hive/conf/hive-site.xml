@@ -80,4 +80,8 @@
 	  <value>zk-0.zk-headless,zk-1.zk-headless,zk-2.zk-headless</value>
 	</property>
 
+        <property>
+          <name>spark.yarn.jar</name>
+          <value>hdfs://hdfscluster/user/hive/spark-assembly.jar</value>
+       </property>
 </configuration>

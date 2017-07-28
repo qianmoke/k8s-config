@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
       - name: solr
-        imagePullPolicy: IfNotPresent
-        image: pilchard/solr
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/solr
 #        resources:
 #          requests:
 #            cpu: "100m"

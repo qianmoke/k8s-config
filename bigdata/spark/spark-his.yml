@@ -26,8 +26,8 @@ spec:
     spec:
       containers:
       - name: spark
-        imagePullPolicy: IfNotPresent
-        image: pilchard/spark
+        imagePullPolicy: Always
+        image: docker.io/pilchard/spark
 #        resources:
 #          requests:
 #            cpu: "100m"

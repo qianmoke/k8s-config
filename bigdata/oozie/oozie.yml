@@ -25,8 +25,8 @@ spec:
     spec:
       containers:
       - name: oozie
-        imagePullPolicy: IfNotPresent
-        image: pilchard/oozie
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/oozie
 #        resources:
 #          requests:
 #            cpu: "100m"

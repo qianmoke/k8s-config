@@ -30,7 +30,7 @@ spec:
       containers:
       - name: hbase
         imagePullPolicy: Always
-        image: pilchard/hbase
+        image: docker.io/pilchard/hbase
 #        resources:
 #          requests:
 #            cpu: "100m"

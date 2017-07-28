@@ -29,8 +29,8 @@ spec:
     spec:
       containers:
       - name: hadoop
-        imagePullPolicy: IfNotPresent
-        image: pilchard/hadoop
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/hadoop
         livenessProbe:
           httpGet:
             path: /

@@ -26,22 +26,22 @@ spec:
     spec:
       containers:
       - name: hiveserver2
-        imagePullPolicy: IfNotPresent
-        image: pilchard/hive
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/spark
         resources:
           requests:
             cpu: "100m"
-#        livenessProbe:
-#          tcpSocket:
-#            port: 10000
-#          initialDelaySeconds: 15
-#          periodSeconds: 15
-#          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 10000
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"   
         - name : HADOOP_OPTS
-          value: "-Dhive.log.dir=/var/log/hive/ -Dhive.log.file=hive-server2.log -Dhive.log.threshold=INFO"
+          value: "-Dhive.log.dir=/var/log/hive/ -Dhive.log.file=hive-server2.log -Dhive.root.logger=INFO,console"
         ports:
         - containerPort: 10000
           name: rpc

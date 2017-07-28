@@ -13,4 +13,3 @@ data:
     # Apply this config only on slaves.
     [mysqld]
     super-read-only
-

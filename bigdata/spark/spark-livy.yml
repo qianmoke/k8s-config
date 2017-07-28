@@ -26,8 +26,8 @@ spec:
     spec:
       containers:
       - name: livy
-        imagePullPolicy: IfNotPresent
-        image: pilchard/livy
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/livy
 #        resources:
 #          requests:
 #            cpu: "100m"

@@ -30,7 +30,7 @@ spec:
       containers:
       - name: hadoop
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image: docker.io/pilchard/hadoop
         resources:
           requests:
             cpu: "100m"

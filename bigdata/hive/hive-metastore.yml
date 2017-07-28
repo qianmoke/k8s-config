@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
       - name: metastore
-        imagePullPolicy: IfNotPresent
-        image: pilchard/hive
+        imagePullPolicy: Always
+        image: docker.io/pilchard/hive
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -44,6 +44,8 @@ spec:
         env:
         - name : HADOOP_HEAPSIZE
           value: "1000"          
+        - name : HADOOP_OPTS
+          value: "-Dhive.log.dir=/var/log/hive/ -Dhive.log.file=hive-server2.log -Dhive.root.logger=INFO,console"
         command:
         - sh
         - -c
@@ -61,4 +63,5 @@ spec:
       - name: hadoop
         configMap:
           name: hadoop
+
           

@@ -33,8 +33,8 @@ spec:
     spec:
       containers:
       - name: catalog
-        imagePullPolicy: IfNotPresent
-        image: pilchard/impala
+        imagePullPolicy: Always
+        image: docker.io/pilchard/impala
 #        resources:
 #          requests:
 #            cpu: "100m"

@@ -78,7 +78,7 @@ spec:
             memory: 1Gi
         livenessProbe:
           exec:
-            command: ["mysqladmin", "ping", "-pD@zzilovey9"]
+            command: ["mysqladmin", "ping"]
           initialDelaySeconds: 30
           timeoutSeconds: 5
         readinessProbe:

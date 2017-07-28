@@ -34,7 +34,7 @@ spec:
       containers:
       - name: hadoop
         imagePullPolicy: Always
-        image: pilchard/hadoop
+        image: docker.io/pilchard/hadoop
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -78,8 +78,8 @@ spec:
         - name: hdfs-socket
           mountPath: /var/run/hdfs-sockets
       - name: hbase
-        imagePullPolicy: IfNotPresent
-        image: pilchard/hbase
+        imagePullPolicy: Always
+        image: docker.io/pilchard/hbase
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -119,7 +119,7 @@ spec:
           mountPath: /var/run/hdfs-sockets
       - name: impalad
         imagePullPolicy: Always
-        image: pilchard/impala
+        image: docker.io/pilchard/impala
 #        resources:
 #          requests:
 #            cpu: "100m"

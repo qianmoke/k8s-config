@@ -5,7 +5,7 @@ metadata:
   namespace: myapp
 spec:
   rules:
-  - host: wordpress.ludun.xin
+  - host: wordpress.kudoop.cn
     http:
       paths:
       - backend:
@@ -20,7 +20,7 @@ metadata:
   namespace: myapp
 spec:
   rules:
-  - host: blog.ludun.xin
+  - host: blog.kudoop.cn
     http:
       paths:
       - backend:

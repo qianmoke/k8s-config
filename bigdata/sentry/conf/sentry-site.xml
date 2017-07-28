@@ -20,10 +20,6 @@
         <name>sentry.store.jdbc.driver</name>
         <value>com.mysql.jdbc.Driver</value>
     </property>
-    <property>
-    <name>sentry.service.server.rpc-address</name>
-    <value>sentry-0.sentry</value>
-</property>
   <property>
     <name>sentry.service.server.rpc-port</name>
     <value>8038</value>

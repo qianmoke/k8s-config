@@ -9,16 +9,14 @@ spec:
   - port: 8038
     targetPort: 8038
     name: sentry
-  clusterIP: None
   selector:
     app: sentry
 ---
-apiVersion: apps/v1beta1
-kind: StatefulSet
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   name: sentry
 spec:
-  serviceName: sentry
   replicas: 1
   template:
     metadata:
@@ -28,7 +26,7 @@ spec:
       containers:
       - name: sentry
         imagePullPolicy: Always
-        image: pilchard/solr
+        image: docker.io/pilchard/solr
 #        resources:
 #          requests:
 #            cpu: "100m"
@@ -45,8 +43,7 @@ spec:
         - sh
         - -c
         - |
-          /etc/init.d/sentry-store start
-          tail -f /var/log/sentry/*
+          su - sentry -s /bin/bash -c "sentry --command service --conffile /etc/sentry/conf/sentry-site.xml 2>&1"
         volumeMounts:
         - name: sentry
           mountPath: /etc/sentry/conf 
