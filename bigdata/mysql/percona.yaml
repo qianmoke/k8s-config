@@ -1,0 +1,73 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: mysql
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: docker.io/pilchard/percona
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "1"
+        ports:
+        - name: mysql
+          containerPort: 3306
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+          subPath: mysql
+        - name: config-map
+          mountPath: /mnt
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1Gi
+        command:
+        - sh
+        - -c
+        - |
+          cp /mnt/my.cnf /etc/my.cnf
+          chown -R mysql:mysql /var/lib/mysql
+          echo wsrep_node_address=`hostname -f` >> /etc/my.cnf
+          echo wsrep_node_name=`hostname` >> /etc/my.cnf
+          if [ `hostname` == "mysql-0" ] && [ ! -f /var/lib/mysql/mysql-0.err ];then
+            mysqld --initialize-insecure
+            chown -R mysql:mysql /var/lib/mysql
+            mysqld_safe --wsrep_cluster_address=gcomm:// 
+          else
+            mysqld_safe
+          fi
+          cat /var/lib/mysql/`hostname`.err
+        livenessProbe:
+          exec:
+            command: ["mysqladmin", "ping"]
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+#        readinessProbe:
+#          exec:
+#            # Check we can execute queries over TCP (skip-networking is off).
+#            command: ["mysql", "-h", "127.0.0.1", "-e", "SELECT 1"]
+#          initialDelaySeconds: 5
+#          timeoutSeconds: 1
+      volumes:
+      - name: config-map
+        configMap:
+          name: mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "slow"
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 20Gi
+

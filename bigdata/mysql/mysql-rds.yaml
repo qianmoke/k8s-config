@@ -1,0 +1,8 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql-read
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: yidb.ctln3hqibdsb.us-east-2.rds.amazonaws.com
