@@ -82,3 +82,45 @@ spec:
       - backend:
           serviceName: mapred-job
           servicePort: 19888
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ps
+  namespace: default
+spec:
+  rules:
+  - host: ps.kudoop.cn
+    http:
+      paths:
+      - backend:
+          serviceName: yarn-ps
+          servicePort: 8089
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kibana
+  namespace: kube-system
+spec:
+  rules:
+  - host: kibana.kudoop.cn
+    http:
+      paths:
+      - backend:
+          serviceName: kibana-logging
+          servicePort: 5601
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  rules:
+  - host: es.kudoop.cn
+    http:
+      paths:
+      - backend:
+          serviceName: elasticsearch-logging
+          servicePort: 9200

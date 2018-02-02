@@ -62,6 +62,8 @@ spec:
           mountPath: /etc/hive/conf
         - name: hbase
           mountPath: /etc/hbase/conf
+        - name: spark
+          mountPath: /etc/spark/conf
       volumes:
       - name: hadoop
         configMap:
@@ -75,4 +77,6 @@ spec:
       - name: hue
         configMap:
           name: hue
-
+      - name: spark
+        configMap:
+          name: spark

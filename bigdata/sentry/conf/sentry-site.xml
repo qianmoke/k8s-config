@@ -57,5 +57,23 @@
     <name>sentry.hdfs.integration.path.prefixes</name>
     <value>/user/hive/warehouse</value>
 </property>
+<property>
+     <name>datanucleus.autoCreateTables</name>
+     <value>true</value>
+</property>
+	<property>
+	  <name>datanucleus.autoCreateSchema</name>
+	  <value>true</value>
+	</property>
+	
+	<property>
+	  <name>datanucleus.autoCreateTables</name>
+	  <value>true</value>
+	</property>	
+	
+	<property>
+	  <name>datanucleus.fixedDatastore</name>
+	  <value>true</value>
+	</property>
 </configuration>
 

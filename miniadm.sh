@@ -13,7 +13,7 @@ setenforce 0
 yum install -y docker kubelet kubeadm kubectl kubernetes-cni
 systemctl enable docker && systemctl start docker
 systemctl enable kubelet && systemctl start kubelet
-kubeadm init
+kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=18.218.191.166
 kubectl taint nodes --all node-role.kubernetes.io/master-
 #kubeadm join --token=e49bcc.2d4ba0c53d6d616f 172.31.27.54
 kubectl apply -f https://git.io/weave-kube-1.6

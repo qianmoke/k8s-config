@@ -12,7 +12,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0001
+      path: /mnt/data/pv0001
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -27,7 +27,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0002
+      path: /mnt/data/pv0002
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -42,7 +42,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0003
+      path: /mnt/data/pv0003
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -57,7 +57,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0004
+      path: /mnt/data/pv0004
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -72,7 +72,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0005
+      path: /mnt/data/pv0005
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -87,7 +87,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0006
+      path: /mnt/data/pv0006
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -102,7 +102,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0007
+      path: /mnt/data/pv0007
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -117,7 +117,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0008
+      path: /mnt/data/pv0008
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -132,7 +132,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0009
+      path: /mnt/data/pv0009
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -147,7 +147,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0010
+      path: /mnt/data/pv0010
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -162,7 +162,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0011
+      path: /mnt/data/pv0011
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -177,7 +177,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0012
+      path: /mnt/data/pv0012
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -192,7 +192,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0013
+      path: /mnt/data/pv0013
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -207,7 +207,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0014
+      path: /mnt/data/pv0014
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -222,7 +222,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0015
+      path: /mnt/data/pv0015
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -239,7 +239,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0016
+      path: /mnt/data/pv0016
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -256,7 +256,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0017
+      path: /mnt/data/pv0017
 
 ---
   apiVersion: v1
@@ -274,7 +274,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0019
+      path: /mnt/data/pv0019
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -291,7 +291,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0018
+      path: /mnt/data/pv0018
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -308,7 +308,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0021
+      path: /mnt/data/pv0021
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -325,7 +325,7 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0020
+      path: /mnt/data/pv0020
 ---
   apiVersion: v1
   kind: PersistentVolume
@@ -342,5 +342,5 @@
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
     hostPath:
-      path: /hdfs/pv0022
+      path: /mnt/data/pv0022
 
