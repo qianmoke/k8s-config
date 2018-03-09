@@ -5,14 +5,6 @@
         <value>none</value>
     </property>
     <property>
-        <name>sentry.service.admin.group</name>
-        <value>admin1</value>
-    </property>
-    <property>
-        <name>sentry.service.allow.connect</name>
-        <value>impala,hive,solr</value>
-    </property>
-    <property>
         <name>sentry.store.jdbc.url</name>
         <value>jdbc:mysql://mysql-read:3306/sentry</value>
     </property>
@@ -30,7 +22,7 @@
 </property>
 <property>
     <name>sentry.service.allow.connect</name>
-    <value>hive,impala,hue,hdfs</value>
+    <value>hive,impala,hue,hdfs,solr</value>
 </property>
 <property>
     <name>sentry.store.group.mapping</name>

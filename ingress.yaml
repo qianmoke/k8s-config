@@ -32,13 +32,17 @@ metadata:
   name: dashboard
   namespace: kube-system
 spec:
+  tls:
+  - hosts: 
+    - dashboard.kudoop.cn
+    secretName: kubernetes-dashboard-certs
   rules:
   - host: dashboard.kudoop.cn
     http:
       paths:
       - backend:
           serviceName: kubernetes-dashboard
-          servicePort: 80
+          servicePort: 443
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -124,3 +128,31 @@ spec:
       - backend:
           serviceName: elasticsearch-logging
           servicePort: 9200
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kudu
+  namespace: default
+spec:
+  rules:
+  - host: kudu.kudoop.cn
+    http:
+      paths:
+      - backend:
+          serviceName: kudu
+          servicePort: 8051
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kafka
+  namespace: default
+spec:
+  rules:
+  - host: kafka.kudoop.cn
+    http:
+      paths:
+      - backend:
+          serviceName: kafka-manager
+          servicePort: 9000

@@ -39,3 +39,7 @@ kubectl apply -f k8s-config/bigdata/spark/
 kubectl apply -f k8s-config/bigdata/impala/
 #hue
 kubectl apply -f k8s-config/bigdata/hue/hue.yaml
+#kafka
+kubectl apply -f k8s-config/bigdata/kafka.yaml
+#sqoop
+kubectl apply -f k8s-config/bigdata/sqoop.yaml
