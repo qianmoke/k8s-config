@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kudu
+  labels:
+    app: kudu
+spec:
+  ports:
+  - port: 7051
+    name: rpc
+  - port: 8051
+    name: web
+  clusterIP: None
+  selector:
+    app: kudu
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kudu
+spec:
+  serviceName: kudu
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: kudu
+    spec:
+      containers:
+      - name: kudu-master
+        imagePullPolicy: Always
+        image: docker.io/pilchard/kudu
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 7051
+          name: rpc
+        - containerPort: 8051
+          name: web
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8051
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
+        command:
+        - sh
+        - -c
+        - |
+          su -s /bin/bash kudu -c "/usr/sbin/kudu-master --flagfile=/etc/kudu/conf/master.gflagfile"
+        volumeMounts:
+        - name: kudu
+          mountPath: /etc/kudu/conf          
+      volumes:
+      - name: kudu
+        configMap:
+          name: kudu

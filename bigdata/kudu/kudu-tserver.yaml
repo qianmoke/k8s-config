@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kudu-ts
+  labels:
+    app: kudu-ts
+spec:
+  ports:
+  - port: 7050
+    name: rpc
+  clusterIP: None
+  selector:
+    app: kudu-ts
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kudu-ts
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kudu-ts
+    spec:
+      containers:
+      - name: kudu-tserver
+        imagePullPolicy: IfNotPresent
+        image: pilchard/kudu
+#        resources:
+#          requests:
+#            cpu: "100m"
+        ports:
+        - containerPort: 7050
+          name: rpc
+        command:
+        - sh
+        - -c
+        - |
+          su -s /bin/bash kudu -c "/usr/sbin/kudu-tserver --flagfile=/etc/kudu/conf/tserver.gflagfile"
+        volumeMounts:
+        - name: kudu
+          mountPath: /etc/kudu/conf          
+      volumes:
+      - name: kudu
+        configMap:
+          name: kudu
+
