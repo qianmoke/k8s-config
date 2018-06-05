@@ -4,7 +4,7 @@ metadata:
   name: cockpit 
 subjects:
 - kind: User 
-  name: root 
+  name: pilchard
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole

@@ -3,11 +3,12 @@
   kind: PersistentVolume
   metadata:
     name: pv0001
-    annotations:
-      volume.beta.kubernetes.io/storage-class: "slow"
+#    annotations:
+#      volume.beta.kubernetes.io/storage-class: "slow"
   spec:
+#    storageClassName: default
     capacity:
-      storage: 20Gi
+      storage: 50Gi
     accessModes:
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
@@ -18,9 +19,10 @@
   kind: PersistentVolume
   metadata:
     name: pv0002
-    annotations:
-      volume.beta.kubernetes.io/storage-class: "slow"
+ #   annotations:
+ #     volume.beta.kubernetes.io/storage-class: "slow"
   spec:
+ #   storageClassName: default
     capacity:
       storage: 20Gi
     accessModes:
@@ -33,11 +35,12 @@
   kind: PersistentVolume
   metadata:
     name: pv0003
-    annotations:
-      volume.beta.kubernetes.io/storage-class: "slow"
+#    annotations:
+#      volume.beta.kubernetes.io/storage-class: "slow"
   spec:
+#    storageClassName: default
     capacity:
-      storage: 20Gi
+      storage: 50Gi
     accessModes:
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
@@ -48,11 +51,12 @@
   kind: PersistentVolume
   metadata:
     name: pv0004
-    annotations:
-      volume.beta.kubernetes.io/storage-class: "slow"
+#    annotations:
+#      volume.beta.kubernetes.io/storage-class: "slow"
   spec:
+#    storageClassName: default
     capacity:
-      storage: 20Gi
+      storage: 50Gi
     accessModes:
       - ReadWriteOnce
     persistentVolumeReclaimPolicy: Recycle
@@ -63,9 +67,10 @@
   kind: PersistentVolume
   metadata:
     name: pv0005
-    annotations:
-      volume.beta.kubernetes.io/storage-class: "slow"
+#   annotations:
+#      volume.beta.kubernetes.io/storage-class: "slow"
   spec:
+#    storageClassName: default
     capacity:
       storage: 20Gi
     accessModes:

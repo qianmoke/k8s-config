@@ -59,7 +59,7 @@ spec:
           echo "SOLR_ZK_ENSEMBLE=$SOLR_ZK_ENSEMBLE" >> /etc/default/solr
           echo "SOLR_HDFS_HOME=$SOLR_HDFS_HOME" >> /etc/default/solr
           /etc/init.d/solr-server start
-          sleep 5
+          sleep 15
           tail -f /var/log/solr/*
         volumeMounts:
         - name: hadoop

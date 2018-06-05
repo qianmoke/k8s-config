@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqoop
+  labels:
+    app: sqoop
+spec:
+  ports:
+  - port: 12000
+    targetPort: 12000
+    name: sqoop
+  selector:
+    app: sqoop
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sqoop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sqoop
+    spec:
+      containers:
+      - name: sqoop
+        imagePullPolicy: Always 
+        image: docker.io/pilchard/sqoop
+#        resources:
+#          requests:
+#            cpu: "100m"
+        livenessProbe:
+          tcpSocket:
+            port: 12000
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 12000
+          name: rpc
+        env:
+        - name : HADOOP_HEAPSIZE
+          value: "200"          
+        command:
+        - sh
+        - -c
+        - |
+          /etc/init.d/sqoop2-server start
+          tail -f /var/log/sqoop2/*
+        volumeMounts:
+        - name: hadoop
+          mountPath: /etc/hadoop/conf                         
+        - name: sqoop
+          mountPath: /etc/sqoop2/conf 
+        - name: hive
+          mountPath: /etc/hive/conf
+        - name: hbase
+          mountPath: /etc/hbase/conf
+      volumes:
+      - name: hadoop
+        configMap:
+          name: hadoop
+      - name: hive
+        configMap:
+          name: hive
+      - name: hbase
+        configMap:
+          name: hbase
+      - name: sqoop
+        configMap:
+          name: sqoop
+

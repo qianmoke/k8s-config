@@ -19,14 +19,14 @@
 
 # ------------------- Dashboard Secret ------------------- #
 
-# apiVersion: v1
-#kind: Secret
-#metadata:
-#  labels:
-#    k8s-app: kubernetes-dashboard
-#  name: kubernetes-dashboard-certs
-#  namespace: kube-system
-#type: Opaque
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard-certs
+  namespace: kube-system
+type: Opaque
 
 ---
 # ------------------- Dashboard Service Account ------------------- #
@@ -114,7 +114,7 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.2
+        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
         ports:
         - containerPort: 8443
           protocol: TCP
@@ -124,6 +124,7 @@ spec:
           # If not specified, Dashboard will attempt to auto discover the API server and connect
           # to it. Uncomment only if the default does not work.
           # - --apiserver-host=http://my-address:port
+          - --v=4
         volumeMounts:
         - name: kubernetes-dashboard-certs
           mountPath: /certs
@@ -163,5 +164,6 @@ spec:
   ports:
     - port: 443
       targetPort: 8443
+  type: NodePort
   selector:
     k8s-app: kubernetes-dashboard
