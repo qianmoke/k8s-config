@@ -4,4 +4,4 @@ metadata:
   name: tcp-ports
   namespace: nginx-ingress
 data:
-  22: "{{ .Release.Namespace }}/{{ template "fullname" . }}:22"
+  222: "{{ .Release.Namespace }}/{{ template "fullname" . }}:22"

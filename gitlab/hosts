@@ -1,0 +1,13 @@
+127.0.0.1       localhost
+
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+
+172.20.0.5 i-uuwl81py
+
+172.20.0.3 i-fb0w9z5m 
+172.20.0.7 i-ku0triq1 gitlab.kstonedata.com.cn
+
+172.20.0.6 i-9h39pg69 registry.kstonedata.com.cn
+172.20.0.2 i-gbwqwcf1 mattermost.kstonedata.com.cn

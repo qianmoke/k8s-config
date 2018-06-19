@@ -1,0 +1,39 @@
+apiVersion: v1
+entries:
+  authx:
+  - apiVersion: v1
+    created: 2018-06-09T01:43:58.917834346Z
+    description: A Helm chart of kstone for Kubernetes
+    digest: 6d0079cd8903eaca5a9d91da7bd1b2214f338e7d11d592fecb2b392c2b3314ef
+    name: authx
+    urls:
+    - http://charts.kstonedata.com.cn/authx-2.3.0.tgz
+    version: 2.3.0
+  modeler:
+  - apiVersion: v1
+    created: 2018-06-09T01:43:58.918538823Z
+    description: A Helm chart of kstone for Kubernetes
+    digest: 89294a781042790da2d1ee17608fa19e228053079b636402fe3221bcb98c69d9
+    name: modeler
+    urls:
+    - http://charts.kstonedata.com.cn/modeler-2.3.0.tgz
+    version: 2.3.0
+  schedule:
+  - apiVersion: v1
+    created: 2018-06-09T01:43:58.919321087Z
+    description: A Helm chart of kstone for Kubernetes
+    digest: 69d1d336cd091a8e9f674baa972d137cdb1b128543d8a63c51e5f1a8a794ca37
+    name: schedule
+    urls:
+    - http://charts.kstonedata.com.cn/schedule-2.3.0.tgz
+    version: 2.3.0
+  tfui:
+  - apiVersion: v1
+    created: 2018-06-09T01:43:58.919857357Z
+    description: A Helm chart of kstone for Kubernetes
+    digest: 9a5521504e12debe3ebb1c49e325193a637bd647ce495759aa128f2e27a7b1d5
+    name: tfui
+    urls:
+    - http://charts.kstonedata.com.cn/tfui-2.3.0.tgz
+    version: 2.3.0
+generated: 2018-06-09T01:43:58.913932068Z

@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dev-kstonedata
+  labels:
+    app: dev-kstonedata
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/redirect-regex: ^http://dev.kstonedata.com.cn/$
+    traefik.ingress.kubernetes.io/redirect-replacement: http://k2tf.pages.kstonedata.com.cn/index
+spec:
+  rules:
+  - host: "dev.kstonedata.com.cn"
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: dev-gitlab
+            servicePort: 8090
+

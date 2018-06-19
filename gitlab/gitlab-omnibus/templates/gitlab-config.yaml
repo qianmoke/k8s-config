@@ -10,7 +10,7 @@ metadata:
 data:
   external_scheme: https
   external_hostname: gitlab.{{ .Values.baseDomain }}
-  registry_external_scheme: https
+  registry_external_scheme: http
   registry_external_hostname: registry.{{ .Values.baseDomain }}
   mattermost_external_scheme: https
   mattermost_external_hostname: mattermost.{{ .Values.baseDomain }}

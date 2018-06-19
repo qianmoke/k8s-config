@@ -6,20 +6,17 @@ metadata:
   annotations:
     service.beta.kubernetes.io/external-traffic: "OnlyLocal"
 spec:
-  type: NodePort
+  type: ClusterIP
 {{- if .Values.baseIP }}
   loadBalancerIP: {{ .Values.baseIP }}
 {{- end }}
   ports:
   - port: 80
     name: http
-    Nodeport: 30080
   - port: 443
     name: https
-    NodePort: 30443
   - port: 22
     name: git
-    NodePort: 30022
   selector:
     app: nginx
 apiVersion: v1

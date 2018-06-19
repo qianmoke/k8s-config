@@ -22,6 +22,20 @@ data:
       --kubernetes-image-pull-secrets {{ . | quote }} \
       {{- end }}
 
+    cat >> /etc/gitlab-runner/config.toml << EOF
+          [[runners.kubernetes.volumes.host_path]]
+            name = "hosts"
+            host_path = "/etc/hosts"
+            mount_path = "/etc/hosts"
+            read_only = false
+          [[runners.kubernetes.volumes.host_path]]
+            name = "docker"
+            host_path = "/var/run/docker.sock"
+            mount_path = "/var/run/docker.socket"
+            read_only = false
+    EOF
+
+
     # Start the runner
     /entrypoint run --user=gitlab-runner \
       --working-directory=/home/gitlab-runner

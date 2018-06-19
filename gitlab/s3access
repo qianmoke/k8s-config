@@ -1,0 +1,1 @@
+kubectl create secret generic s3access --from-literal=accessKey="AKIAIOSFODNN7EXAMPLE"      --from-literal=secretKey="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
